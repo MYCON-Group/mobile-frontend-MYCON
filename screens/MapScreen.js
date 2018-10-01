@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   Platform,
@@ -7,52 +7,92 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
-  View,
-} from 'react-native';
-import { WebBrowser } from 'expo';
-import PinchZoomView from 'react-native-pinch-zoom-view'
-import { MonoText } from '../components/StyledText';
+  View
+} from "react-native";
+import { WebBrowser } from "expo";
+import PinchZoomView from "react-native-pinch-zoom-view";
+import { MonoText } from "../components/StyledText";
 
 export default class MapScreen extends React.Component {
-
   static navigationOptions = {
-    title: 'Map',
+    title: "Map"
   };
 
   state = {
-    positions: [{
-      position: 'absolute',
-      top: 40,
-      left: 40,
-      width: 10,
-      height: 10,
-      backgroundColor: 'blue',
+    mapDimensions: {
+      height: 800,
+      width: 973
     },
-    {
-      position: 'absolute',
-      top: 200,
-      left: 100,
-      width: 10,
-      height: 10,
-      backgroundColor: 'blue',
-    }
+    positions: [
+      {
+        position: "absolute",
+        top: 187.90234,
+        left: 568.33203125,
+        height: 121.9375,
+        width: 120,
+        backgroundColor: "blue"
+      },
+      {
+        position: "absolute",
+        top: 0,
+        left: 461.4375,
+        height: 56.4219,
+        width: 117.844,
+        backgroundColor: "blue"
+      },
+      {
+        position: "absolute",
+        top: 146.26171875,
+        left: 225.574,
+        height: 72.6641,
+        width: 120,
+        backgroundColor: "blue"
+      },
+      {
+        position: "absolute",
+        top: 275.484,
+        left: 67.4179,
+        height: 120.328,
+        width: 120,
+        backgroundColor: "blue"
+      }
     ]
-  }
+  };
 
   render() {
-    let positions = {}
+    let phoneWidth = Dimensions.get("window").width;
+    let s = phoneWidth / this.state.mapDimensions.width;
+
+    let positions = {};
     this.state.positions.forEach((position, i) => {
-      positions[`mapItem${i}`] = position
-    })
+      let newPosition = {
+        ...position,
+        top: position.top * s,
+        left: position.left * s,
+        height: position.height * s,
+        width: position.width * s
+      };
+      positions[`mapItem${i}`] = newPosition;
+    });
     const subStyles = StyleSheet.create({
       ...positions
-    })
+    });
+    const mapStyles = StyleSheet.create({
+      map: {
+        width: Dimensions.get("window").width,
+        height: this.state.mapDimensions.height * s,
+        backgroundColor: "grey"
+      }
+    });
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <PinchZoomView style={styles.map}>
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}
+        >
+          <PinchZoomView style={mapStyles.map}>
             {this.state.positions.map((position, i) => (
-              <View key={`mapItem${i}`} style={subStyles[`mapItem${i}`]}></View>
+              <View key={`mapItem${i}`} style={subStyles[`mapItem${i}`]} />
             ))}
           </PinchZoomView>
         </ScrollView>
@@ -70,8 +110,8 @@ export default class MapScreen extends React.Component {
 
       return (
         <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
+          Development mode is enabled, your app will be slower but you can use
+          useful development tools. {learnMoreButton}
         </Text>
       );
     } else {
@@ -84,107 +124,103 @@ export default class MapScreen extends React.Component {
   }
 
   _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
+    WebBrowser.openBrowserAsync(
+      "https://docs.expo.io/versions/latest/guides/development-mode"
+    );
   };
 
   _handleHelpPress = () => {
     WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
+      "https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes"
     );
   };
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  map: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-    backgroundColor: 'grey',
+    backgroundColor: "#fff"
   },
   developmentModeText: {
     marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
+    color: "rgba(0,0,0,0.4)",
     fontSize: 14,
     lineHeight: 19,
-    textAlign: 'center',
+    textAlign: "center"
   },
   contentContainer: {
-    paddingTop: 30,
+    paddingTop: 30
   },
   welcomeContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 10,
-    marginBottom: 20,
+    marginBottom: 20
   },
   welcomeImage: {
     width: 100,
     height: 80,
-    resizeMode: 'contain',
+    resizeMode: "contain",
     marginTop: 3,
-    marginLeft: -10,
+    marginLeft: -10
   },
   getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
+    alignItems: "center",
+    marginHorizontal: 50
   },
   homeScreenFilename: {
-    marginVertical: 7,
+    marginVertical: 7
   },
   codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
+    color: "rgba(96,100,109, 0.8)"
   },
   codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
+    backgroundColor: "rgba(0,0,0,0.05)",
     borderRadius: 3,
-    paddingHorizontal: 4,
+    paddingHorizontal: 4
   },
   getStartedText: {
     fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
+    color: "rgba(96,100,109, 1)",
     lineHeight: 24,
-    textAlign: 'center',
+    textAlign: "center"
   },
   tabBarInfoContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     ...Platform.select({
       ios: {
-        shadowColor: 'black',
+        shadowColor: "black",
         shadowOffset: { height: -3 },
         shadowOpacity: 0.1,
-        shadowRadius: 3,
+        shadowRadius: 3
       },
       android: {
-        elevation: 20,
-      },
+        elevation: 20
+      }
     }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
+    alignItems: "center",
+    backgroundColor: "#fbfbfb",
+    paddingVertical: 20
   },
   tabBarInfoText: {
     fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
+    color: "rgba(96,100,109, 1)",
+    textAlign: "center"
   },
   navigationFilename: {
-    marginTop: 5,
+    marginTop: 5
   },
   helpContainer: {
     marginTop: 15,
-    alignItems: 'center',
+    alignItems: "center"
   },
   helpLink: {
-    paddingVertical: 15,
+    paddingVertical: 15
   },
   helpLinkText: {
     fontSize: 14,
-    color: '#2e78b7',
+    color: "#2e78b7"
   }
-})
+});

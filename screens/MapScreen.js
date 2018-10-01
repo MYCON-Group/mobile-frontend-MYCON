@@ -84,19 +84,30 @@ export default class MapScreen extends React.Component {
         backgroundColor: "grey"
       }
     });
-    return (
+    return Platform.OS === "ios" ? (
       <View style={styles.container}>
         <ScrollView
+          doAnimateZoomReset={false}
+          maximumZoomScale={2}
+          minimumZoomScale={1}
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
-          <PinchZoomView style={mapStyles.map}>
+          <View style={mapStyles.map}>
             {this.state.positions.map((position, i) => (
               <View key={`mapItem${i}`} style={subStyles[`mapItem${i}`]} />
             ))}
-          </PinchZoomView>
+          </View>
         </ScrollView>
       </View>
+    ) : (
+      <PinchZoomView>
+        <View style={mapStyles.map}>
+          {this.state.positions.map((position, i) => (
+            <View key={`mapItem${i}`} style={subStyles[`mapItem${i}`]} />
+          ))}
+        </View>
+      </PinchZoomView>
     );
   }
 

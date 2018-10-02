@@ -1,13 +1,9 @@
 import React from "react";
 import {
-  ActivityIndicator,
-  AsyncStorage,
   Button,
-  StatusBar,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  View,
   TextInput,
   Text
 } from "react-native";

@@ -36,7 +36,9 @@ EventsStack.navigationOptions = {
     <TabBarIcon
       focused={focused}
       name={
-        Platform.OS === "ios" ? `ios-add${focused ? "" : "-outline"}` : "md-add"
+        Platform.OS === "ios"
+          ? `ios-search${focused ? "" : "-outline"}`
+          : "md-search"
       }
     />
   )
@@ -53,8 +55,8 @@ UpdatesStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === "ios"
-          ? `ios-options${focused ? "" : "-outline"}`
-          : "md-options"
+          ? `ios-megaphone${focused ? "" : "-outline"}`
+          : "md-megaphone"
       }
     />
   )
@@ -71,8 +73,8 @@ LoginStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === "ios"
-          ? `ios-options${focused ? "" : "-outline"}`
-          : "md-options"
+          ? `ios-contact${focused ? "" : "-outline"}`
+          : "md-contact"
       }
     />
   )

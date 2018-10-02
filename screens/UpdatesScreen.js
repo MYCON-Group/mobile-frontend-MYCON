@@ -5,7 +5,8 @@ import {
   TextInput,
   KeyboardAvoidingView,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  BackHandler
 } from "react-native";
 import StallUpdateCard from "../components/StallUpdateCard";
 

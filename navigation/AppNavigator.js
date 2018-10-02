@@ -15,6 +15,7 @@ export default createSwitchNavigator(
     CreateUser: CreateUser
   },
   {
-    initialRouteName: "Auth"
+    initialRouteName: "Auth",
+    backBehavior: 'initialRoute'
   }
 );

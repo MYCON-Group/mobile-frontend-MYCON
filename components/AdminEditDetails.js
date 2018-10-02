@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 
 export default class TabBarIcon extends React.Component {
   render() {
@@ -8,7 +8,9 @@ export default class TabBarIcon extends React.Component {
         <View>
           <Text>{this.props.details}</Text>
         </View>
-        <Button title="Edit" />
+        <TouchableOpacity onPress={this.props.edit}>
+          <Text>Edit</Text>
+        </TouchableOpacity>
       </View>
     );
   }

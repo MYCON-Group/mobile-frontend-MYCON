@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import { ScrollView, StyleSheet, Text, BackHandler } from "react-native";
 
 export default class EventsScreen extends React.Component {
   static navigationOptions = {

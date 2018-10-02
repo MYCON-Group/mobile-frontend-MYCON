@@ -1,11 +1,13 @@
 import React from "react";
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, BackHandler } from "react-native";
 import AdminEditDetails from "../components/AdminEditDetails";
 
 export default class AdminScreen extends React.Component {
   static navigationOptions = {
     title: "Admin"
   };
+
+
 
   state = {
     Name: "wewe",
@@ -20,13 +22,16 @@ export default class AdminScreen extends React.Component {
     return (
       <ScrollView style={styles.container}>
         {Object.values(this.state).map(value => {
-          return <AdminEditDetails details={value} />;
+          return <AdminEditDetails details={value} edit={this.editValue} />;
         })}
       </ScrollView>
     );
   }
   handleSubmit = () => {
-    //dddd
+    console.log('clicked')
+  };
+  editValue = () => {
+    console.log('ability to edit')
   };
 }
 

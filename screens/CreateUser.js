@@ -5,7 +5,8 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
-  Text
+  Text,
+  BackHandler
 } from "react-native";
 
 export default class Auth extends React.Component {

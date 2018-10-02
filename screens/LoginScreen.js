@@ -6,7 +6,8 @@ import {
   TextInput,
   KeyboardAvoidingView,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  BackHandler
 } from "react-native";
 
 export default class LoginScreen extends React.Component {
@@ -15,6 +16,7 @@ export default class LoginScreen extends React.Component {
   };
 
   render() {
+    { console.log(this.props.navigation) }
     return (
       <KeyboardAvoidingView behaviour="padding" style={styles.flex}>
         <View>
@@ -77,7 +79,6 @@ const styles = StyleSheet.create({
     padding: "2%",
     backgroundColor: "blue",
     height: 40,
-    textAlign: "center",
     marginLeft: 10,
     marginRight: 10
   }

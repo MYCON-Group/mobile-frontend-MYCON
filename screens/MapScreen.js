@@ -7,7 +7,8 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
-  View
+  View,
+  BackHandler
 } from "react-native";
 import { WebBrowser } from "expo";
 import PinchZoomView from "react-native-pinch-zoom-view";
@@ -101,14 +102,14 @@ export default class MapScreen extends React.Component {
         </ScrollView>
       </View>
     ) : (
-      <PinchZoomView>
-        <View style={mapStyles.map}>
-          {this.state.positions.map((position, i) => (
-            <View key={`mapItem${i}`} style={subStyles[`mapItem${i}`]} />
-          ))}
-        </View>
-      </PinchZoomView>
-    );
+        <PinchZoomView>
+          <View style={mapStyles.map}>
+            {this.state.positions.map((position, i) => (
+              <View key={`mapItem${i}`} style={subStyles[`mapItem${i}`]} />
+            ))}
+          </View>
+        </PinchZoomView>
+      );
   }
 
   _maybeRenderDevelopmentModeWarning() {

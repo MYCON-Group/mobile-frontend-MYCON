@@ -15,8 +15,12 @@ export default class LoginScreen extends React.Component {
     title: "Login"
   };
 
+  state = {
+    username: "",
+    password: ""
+  };
+
   render() {
-    { console.log(this.props.navigation) }
     return (
       <KeyboardAvoidingView behaviour="padding" style={styles.flex}>
         <View>
@@ -24,8 +28,10 @@ export default class LoginScreen extends React.Component {
 
           <TouchableOpacity>
             <TextInput
+              value={this.state.username}
               underlineColorAndroid="transparent"
               style={styles.userInput}
+              onChange={this.handleChange}
             />
           </TouchableOpacity>
 
@@ -34,6 +40,7 @@ export default class LoginScreen extends React.Component {
               underlineColorAndroid="transparent"
               secureTextEntry={true}
               style={styles.userInput}
+              onChange={this.handlePasswordChange}
             />
           </TouchableOpacity>
 
@@ -55,8 +62,24 @@ export default class LoginScreen extends React.Component {
     );
   }
 
+  handleChange = event => {
+    this.setState({
+      username: event.target.value
+    });
+  };
+
+  handlePasswordChange = event => {
+    this.setState({
+      password: event.target.value
+    });
+  };
+
   handleSubmit = () => {
-    console.log("clicked");
+    const submitInfo = {
+      username: this.state.username,
+      password: this.state.password
+    };
+    //This needs sending to password auth
   };
 
   handleCreateAccount = () => {

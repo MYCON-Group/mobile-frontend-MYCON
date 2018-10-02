@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { WebBrowser } from "expo";
 import PinchZoomView from "react-native-pinch-zoom-view";
-import { MonoText } from "../components/StyledText";
+// import { MonoText } from "../components/StyledText";
 
 export default class MapScreen extends React.Component {
   static navigationOptions = {

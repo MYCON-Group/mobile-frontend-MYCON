@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  View,
   Button,
   Text,
   TextInput,
@@ -15,34 +16,45 @@ export default class LoginScreen extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={styles.flex}>
-        <Text> Username: </Text>
-        <TouchableOpacity style={styles.containers}>
-          <TextInput
-            underlineColorAndroid="transparent"
-            style={styles.userInput}
-          />
-        </TouchableOpacity>
-        <Text> Password:</Text>
-        <TouchableOpacity style={styles.containers}>
-          <TextInput
-            underlineColorAndroid="transparent"
-            secureTextEntry={true}
-            style={styles.userInput}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.containers}>
-          <Button onPress={this.handleSubmit} title="Sign In" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.containers}>
-          <Button onPress={this.handleCreateAccount} title="Create Account" />
-        </TouchableOpacity>
+      <KeyboardAvoidingView behaviour="padding" style={styles.flex}>
+        <View>
+          <Text style={styles.header}> Login </Text>
+
+          <TouchableOpacity>
+            <TextInput
+              underlineColorAndroid="transparent"
+              style={styles.userInput}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <TextInput
+              underlineColorAndroid="transparent"
+              secureTextEntry={true}
+              style={styles.userInput}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.containers}
+            onPress={this.handleSubmit}
+          >
+            <Text> Login </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.containers}
+            onPress={this.handleCreateAccount}
+          >
+            <Text> Create Account </Text>
+          </TouchableOpacity>
+        </View>
       </KeyboardAvoidingView>
     );
   }
 
   handleSubmit = () => {
-    //dddd
+    console.log("clicked");
   };
 
   handleCreateAccount = () => {
@@ -62,6 +74,11 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   containers: {
-    padding: "2%"
+    padding: "2%",
+    backgroundColor: "blue",
+    height: 40,
+    textAlign: "center",
+    marginLeft: 10,
+    marginRight: 10
   }
 });

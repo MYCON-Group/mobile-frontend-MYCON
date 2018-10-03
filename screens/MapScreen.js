@@ -1,18 +1,14 @@
 import React from "react";
 import {
-  Image,
   Platform,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   Dimensions,
-  View,
-  BackHandler
+  View
 } from "react-native";
 import { WebBrowser } from "expo";
 import PinchZoomView from "react-native-pinch-zoom-view";
-// import { MonoText } from "../components/StyledText";
 
 export default class MapScreen extends React.Component {
   static navigationOptions = {
@@ -102,14 +98,14 @@ export default class MapScreen extends React.Component {
         </ScrollView>
       </View>
     ) : (
-        <PinchZoomView>
-          <View style={mapStyles.map}>
-            {this.state.positions.map((position, i) => (
-              <View key={`mapItem${i}`} style={subStyles[`mapItem${i}`]} />
-            ))}
-          </View>
-        </PinchZoomView>
-      );
+      <PinchZoomView>
+        <View style={mapStyles.map}>
+          {this.state.positions.map((position, i) => (
+            <View key={`mapItem${i}`} style={subStyles[`mapItem${i}`]} />
+          ))}
+        </View>
+      </PinchZoomView>
+    );
   }
 
   _maybeRenderDevelopmentModeWarning() {

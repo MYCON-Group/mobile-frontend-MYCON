@@ -1,13 +1,11 @@
 import React from "react";
 import {
   View,
-  Button,
   Text,
   TextInput,
   KeyboardAvoidingView,
   StyleSheet,
-  TouchableOpacity,
-  BackHandler
+  TouchableOpacity
 } from "react-native";
 
 export default class LoginScreen extends React.Component {
@@ -48,14 +46,14 @@ export default class LoginScreen extends React.Component {
             style={styles.containers}
             onPress={this.handleSubmit}
           >
-            <Text> Login </Text>
+            <Text style={styles.buttonText}> Login </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.containers}
             onPress={this.handleCreateAccount}
           >
-            <Text> Create Account </Text>
+            <Text style={styles.buttonText}> Create Account </Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -92,7 +90,11 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     borderWidth: 1,
     height: 50,
-    fontSize: 40
+    fontSize: 22,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 5,
+    padding: 5
   },
   flex: {
     flex: 1,
@@ -100,8 +102,17 @@ const styles = StyleSheet.create({
   },
   containers: {
     padding: "2%",
-    backgroundColor: "blue",
+    backgroundColor: "#5EA1CE",
     height: 40,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 10
+  },
+  buttonText: {
+    color: "#fff",
+    textAlign: "center"
+  },
+  header: {
     marginLeft: 10,
     marginRight: 10
   }

@@ -4,8 +4,9 @@ import MainTabNavigator from "./MainTabNavigator";
 import Auth from "./Auth";
 import Login from "../screens/LoginScreen";
 import CreateUser from "../screens/CreateUser";
+import SignedInTabNavigator from "./SignedInTabNavigator";
 
-export default createSwitchNavigator(
+export const SignedOut = createSwitchNavigator(
   {
     // You could add another route here for authentication.
     // Read more at https://reactnavigation.org/docs/en/auth-flow.html
@@ -16,6 +17,10 @@ export default createSwitchNavigator(
   },
   {
     initialRouteName: "Auth",
-    backBehavior: 'initialRoute'
+    backBehavior: "initialRoute"
   }
 );
+
+export const SignedIn = createSwitchNavigator({
+  Main: SignedInTabNavigator
+});

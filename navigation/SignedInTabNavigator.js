@@ -9,8 +9,6 @@ import MapScreen from "../screens/MapScreen";
 import EventsScreen from "../screens/EventsScreen";
 import UpdatesScreen from "../screens/UpdatesScreen";
 import AdminScreen from "../screens/AdminScreen";
-import LoginScreen from "../screens/LoginScreen";
-import CreateUser from "../screens/CreateUser";
 
 const MapStack = createStackNavigator({
   Map: MapScreen
@@ -64,12 +62,12 @@ UpdatesStack.navigationOptions = {
   )
 };
 
-const LoginStack = createStackNavigator({
-  Login: LoginScreen
+const AdminStack = createStackNavigator({
+  Admin: AdminScreen
 });
 
-LoginStack.navigationOptions = {
-  tabBarLabel: "Login",
+AdminStack.navigationOptions = {
+  tabBarLabel: "Admin",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -86,5 +84,5 @@ export default createBottomTabNavigator({
   MapStack,
   EventsStack,
   UpdatesStack,
-  LoginStack
+  AdminStack
 });

@@ -5,7 +5,9 @@ import {
   StyleSheet,
   Text,
   Dimensions,
-  View
+  View,
+  Image,
+  TouchableOpacity
 } from "react-native";
 import { WebBrowser } from "expo";
 import PinchZoomView from "react-native-pinch-zoom-view";
@@ -17,8 +19,8 @@ export default class MapScreen extends React.Component {
 
   state = {
     mapDimensions: {
-      height: 800,
-      width: 973
+      height: 832,
+      width: 1085
     },
     positions: [
       {
@@ -57,8 +59,8 @@ export default class MapScreen extends React.Component {
   };
 
   render() {
-    let phoneWidth = Dimensions.get("window").width;
-    let s = phoneWidth / this.state.mapDimensions.width;
+    let phoneHeight = Dimensions.get("window").height;
+    let s = phoneHeight / this.state.mapDimensions.height;
 
     let positions = {};
     this.state.positions.forEach((position, i) => {
@@ -76,35 +78,67 @@ export default class MapScreen extends React.Component {
     });
     const mapStyles = StyleSheet.create({
       map: {
-        width: Dimensions.get("window").width,
-        height: this.state.mapDimensions.height * s,
-        backgroundColor: "grey"
+        height: Dimensions.get("window").height,
+        width: this.state.mapDimensions.width * s
+        // backgroundColor: "grey"
       }
     });
     return Platform.OS === "ios" ? (
       <View style={styles.container}>
+        <ScrollView>
+          <ScrollView
+            doAnimateZoomReset={false}
+            maximumZoomScale={2}
+            horizontal={true}
+            minimumZoomScale={0.5}
+            style={styles.container}
+            contentContainerStyle={styles.contentContainer}
+          >
+            <View style={mapStyles.map}>
+              <Image
+                style={{
+                  width: this.state.mapDimensions.width * s,
+                  height: this.state.mapDimensions.height * s
+                }}
+                source={{
+                  uri:
+                    "http://denverconvention.com/uploads/content/Exhibit_Map.jpg"
+                }}
+              />
+              {this.state.positions.map((position, i) => (
+                <View key={`mapItem${i}`} style={subStyles[`mapItem${i}`]} />
+              ))}
+            </View>
+          </ScrollView>
+        </ScrollView>
+      </View>
+    ) : (
+      <ScrollView>
         <ScrollView
           doAnimateZoomReset={false}
           maximumZoomScale={2}
-          minimumZoomScale={1}
+          horizontal={true}
+          minimumZoomScale={0.5}
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
         >
           <View style={mapStyles.map}>
+            <Image
+              style={{
+                width: this.state.mapDimensions.width * s,
+                height: this.state.mapDimensions.height * s
+              }}
+              source={{
+                uri:
+                  "http://denverconvention.com/uploads/content/Exhibit_Map.jpg"
+              }}
+            />
             {this.state.positions.map((position, i) => (
               <View key={`mapItem${i}`} style={subStyles[`mapItem${i}`]} />
             ))}
           </View>
         </ScrollView>
-      </View>
-    ) : (
-      <PinchZoomView>
-        <View style={mapStyles.map}>
-          {this.state.positions.map((position, i) => (
-            <View key={`mapItem${i}`} style={subStyles[`mapItem${i}`]} />
-          ))}
-        </View>
-      </PinchZoomView>
+      </ScrollView>
     );
   }
 

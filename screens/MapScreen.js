@@ -1,4 +1,5 @@
 import React from "react";
+import { isEmpty } from "lodash";
 import {
   Platform,
   ScrollView,
@@ -9,8 +10,10 @@ import {
   Image,
   TouchableOpacity
 } from "react-native";
+import showStallInfo from "../components/showStallInfo";
 import { WebBrowser } from "expo";
 import PinchZoomView from "react-native-pinch-zoom-view";
+import * as api from "../api";
 
 export default class MapScreen extends React.Component {
   static navigationOptions = {
@@ -18,10 +21,7 @@ export default class MapScreen extends React.Component {
   };
 
   state = {
-    mapDimensions: {
-      height: 832,
-      width: 1085
-    },
+    mapDimensions: {},
     positions: [
       {
         position: "absolute",
@@ -59,31 +59,38 @@ export default class MapScreen extends React.Component {
   };
 
   render() {
-    let phoneHeight = Dimensions.get("window").height;
-    let s = phoneHeight / this.state.mapDimensions.height;
-
+    let phoneHeight;
+    let s;
     let positions = {};
-    this.state.positions.forEach((position, i) => {
-      let newPosition = {
-        ...position,
-        top: position.top * s,
-        left: position.left * s,
-        height: position.height * s,
-        width: position.width * s
-      };
-      positions[`mapItem${i}`] = newPosition;
-    });
-    const subStyles = StyleSheet.create({
-      ...positions
-    });
-    const mapStyles = StyleSheet.create({
-      map: {
-        height: Dimensions.get("window").height,
-        width: this.state.mapDimensions.width * s
-        // backgroundColor: "grey"
-      }
-    });
-    return Platform.OS === "ios" ? (
+    let mapStyles;
+    let subStyles;
+    if (!isEmpty(this.state.mapDimensions)) {
+      phoneHeight = Dimensions.get("window").height;
+      s = phoneHeight / this.state.mapDimensions.height;
+      this.state.positions.forEach((position, i) => {
+        let newPosition = {
+          ...position,
+          top: position.top * s,
+          left: position.left * s,
+          height: position.height * s,
+          width: position.width * s
+        };
+        positions[`mapItem${i}`] = newPosition;
+      });
+      mapStyles = StyleSheet.create({
+        map: {
+          height: Dimensions.get("window").height,
+          width: this.state.mapDimensions.width * s
+        }
+      });
+      subStyles = StyleSheet.create({
+        ...positions
+      });
+    }
+
+    console.log(mapStyles, positions);
+
+    return isEmpty(this.state.mapDimensions) ? null : (
       <View style={styles.container}>
         <ScrollView>
           <ScrollView
@@ -101,46 +108,41 @@ export default class MapScreen extends React.Component {
                   height: this.state.mapDimensions.height * s
                 }}
                 source={{
-                  uri:
-                    "http://denverconvention.com/uploads/content/Exhibit_Map.jpg"
+                  uri: this.state.mapDimensions.image
                 }}
               />
               {this.state.positions.map((position, i) => (
-                <View key={`mapItem${i}`} style={subStyles[`mapItem${i}`]} />
+                <TouchableOpacity
+                  key={`mapItem${i}`}
+                  style={subStyles[`mapItem${i}`]}
+                />
               ))}
             </View>
           </ScrollView>
         </ScrollView>
       </View>
-    ) : (
-      <ScrollView>
-        <ScrollView
-          doAnimateZoomReset={false}
-          maximumZoomScale={2}
-          horizontal={true}
-          minimumZoomScale={0.5}
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}
-        >
-          <View style={mapStyles.map}>
-            <Image
-              style={{
-                width: this.state.mapDimensions.width * s,
-                height: this.state.mapDimensions.height * s
-              }}
-              source={{
-                uri:
-                  "http://denverconvention.com/uploads/content/Exhibit_Map.jpg"
-              }}
-            />
-            {this.state.positions.map((position, i) => (
-              <View key={`mapItem${i}`} style={subStyles[`mapItem${i}`]} />
-            ))}
-          </View>
-        </ScrollView>
-      </ScrollView>
     );
   }
+
+  componentDidMount() {
+    console.log("here....");
+    api.getEvent(1).then(event => {
+      console.log(event);
+      let mapDimensions = {
+        image: event.event_img,
+        height: event.events_map_height,
+        width: event.events_map_width
+      };
+      this.setState({
+        mapDimensions
+      });
+    });
+    // console.log(api.getEvent);
+  }
+
+  showStallInfo = () => {
+    return showStallInfo;
+  };
 
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {

@@ -89,7 +89,12 @@ export default class MapScreen extends React.Component {
 
     return isEmpty(this.state.mapDimensions) ? null : (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />
+        }>
           <ScrollView
             doAnimateZoomReset={false}
             maximumZoomScale={2}
@@ -130,18 +135,42 @@ export default class MapScreen extends React.Component {
         height: data.event.events_map_height,
         width: data.event.events_map_width
       };
+
       this.setState({
         mapDimensions,
         positions: data.positions
       });
     });
-    // console.log(api.getEvent);
+  }
+
+  componentDidUpdate() {
+    console.log("here...");
+    if (this.state.refreshing) {
+      api.getEvent(1).then(data => {
+        console.log(data.positions, '<<<<<<<');
+        let mapDimensions = {
+          image: data.event.events_img,
+          height: data.event.events_map_height,
+          width: data.event.events_map_width
+        };
+
+        this.setState({
+          mapDimensions,
+          positions: data.positions
+        });
+      });
+    }
   }
 
   showStallInfo = () => {
     return showStallInfo;
   };
 
+  _onRefresh = () => {
+    this.setState({ refreshing: true }, () => {
+      this.setState({ refreshing: false });
+    });
+  }
 
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {

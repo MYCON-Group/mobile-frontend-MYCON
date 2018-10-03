@@ -1,12 +1,18 @@
 import React from "react";
-import { Platform, StatusBar, StyleSheet, View } from "react-native";
+import {
+  Platform,
+  StatusBar,
+  StyleSheet,
+  View,
+  KeyboardAvoidingView
+} from "react-native";
 import { AppLoading, Asset, Font, Icon } from "expo";
 import { SignedIn, SignedOut } from "./navigation/AppNavigator";
 
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
-    isLoggedIn: true,
+    isLoggedIn: false,
     currentUser: "CarlosMuyBueno"
   };
 
@@ -22,9 +28,13 @@ export default class App extends React.Component {
     } else {
       if (this.state.isLoggedIn) {
         return (
-          <View style={styles.container}>
-            <SignedIn />
-          </View>
+          <KeyboardAvoidingView
+            style={styles.container}
+            behavior="padding"
+            enabled
+          >
+            <SignedIn screenProps={{ loggedIn: this.state.isLoggedIn }} />
+          </KeyboardAvoidingView>
         );
       } else {
         return (

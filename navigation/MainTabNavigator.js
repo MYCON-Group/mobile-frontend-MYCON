@@ -8,9 +8,7 @@ import TabBarIcon from "../components/TabBarIcon";
 import MapScreen from "../screens/MapScreen";
 import EventsScreen from "../screens/EventsScreen";
 import UpdatesScreen from "../screens/UpdatesScreen";
-import AdminScreen from "../screens/AdminScreen";
 import LoginScreen from "../screens/LoginScreen";
-import CreateUser from "../screens/CreateUser";
 
 const MapStack = createStackNavigator({
   Map: MapScreen

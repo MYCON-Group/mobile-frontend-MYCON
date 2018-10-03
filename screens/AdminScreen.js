@@ -47,7 +47,6 @@ export default class AdminScreen extends React.Component {
   }
 
   handleChange = event => {
-    // event.preventDefault();
     let stateKey = event.target.key;
     let stateVal = event.target.value;
     console.log(event.target);

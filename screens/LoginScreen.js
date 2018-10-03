@@ -22,7 +22,7 @@ export default class LoginScreen extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView behaviour="padding" style={styles.flex}>
+      <KeyboardAvoidingView behaviour="padding" enabled style={styles.flex}>
         <View>
           <Text style={styles.header}> Login </Text>
 

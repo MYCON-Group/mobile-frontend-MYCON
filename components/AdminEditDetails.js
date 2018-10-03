@@ -1,16 +1,17 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TextInput } from "react-native";
 
 export default class TabBarIcon extends React.Component {
   render() {
     return (
-      <View key={this.props.details}>
+      <View>
         <View>
-          <Text>{this.props.details}</Text>
+          <TextInput
+            key={this.props.name}
+            value={this.props.details}
+            onChange={this.props.handleChange}
+          />
         </View>
-        <TouchableOpacity onPress={this.props.edit}>
-          <Text>Edit</Text>
-        </TouchableOpacity>
       </View>
     );
   }

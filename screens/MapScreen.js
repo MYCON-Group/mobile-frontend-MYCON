@@ -8,7 +8,8 @@ import {
   Dimensions,
   View,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  RefreshControl
 } from "react-native";
 import showStallInfo from "../components/showStallInfo";
 import { WebBrowser } from "expo";
@@ -21,39 +22,32 @@ export default class MapScreen extends React.Component {
   };
 
   state = {
+    refreshing: false,
     mapDimensions: {},
     positions: [
       {
-        position: "absolute",
         top: 187.90234,
         left: 568.33203125,
         height: 121.9375,
-        width: 120,
-        backgroundColor: "blue"
+        width: 120
       },
       {
-        position: "absolute",
         top: 0,
         left: 461.4375,
         height: 56.4219,
-        width: 117.844,
-        backgroundColor: "blue"
+        width: 117.844
       },
       {
-        position: "absolute",
         top: 146.26171875,
         left: 225.574,
         height: 72.6641,
-        width: 120,
-        backgroundColor: "blue"
+        width: 120
       },
       {
-        position: "absolute",
         top: 275.484,
         left: 67.4179,
         height: 120.328,
-        width: 120,
-        backgroundColor: "blue"
+        width: 120
       }
     ]
   };
@@ -67,13 +61,12 @@ export default class MapScreen extends React.Component {
     if (!isEmpty(this.state.mapDimensions)) {
       phoneHeight = Dimensions.get("window").height;
       s = phoneHeight / this.state.mapDimensions.height;
-      this.state.positions.forEach((position, i) => {
+      Object.values(this.state.positions).forEach((position, i) => {
         let newPosition = {
-          ...position,
-          top: position.top * s,
-          left: position.left * s,
-          height: position.height * s,
-          width: position.width * s
+          top: position.stall_y * s,
+          left: position.stall_x * s,
+          height: position.stall_height * s,
+          width: position.stall_width * s
         };
         positions[`mapItem${i}`] = newPosition;
       });
@@ -84,11 +77,15 @@ export default class MapScreen extends React.Component {
         }
       });
       subStyles = StyleSheet.create({
+        globalMapStall: {
+          backgroundColor: 'blue',
+          position: 'absolute'
+        },
         ...positions
       });
     }
 
-    console.log(mapStyles, positions);
+    console.log(this.state.mapDimensions);
 
     return isEmpty(this.state.mapDimensions) ? null : (
       <View style={styles.container}>
@@ -111,10 +108,10 @@ export default class MapScreen extends React.Component {
                   uri: this.state.mapDimensions.image
                 }}
               />
-              {this.state.positions.map((position, i) => (
+              {Object.values(this.state.positions).map((position, i) => (
                 <TouchableOpacity
                   key={`mapItem${i}`}
-                  style={subStyles[`mapItem${i}`]}
+                  style={[subStyles[`mapItem${i}`], subStyles.globalMapStall]}
                 />
               ))}
             </View>
@@ -125,16 +122,17 @@ export default class MapScreen extends React.Component {
   }
 
   componentDidMount() {
-    console.log("here....");
-    api.getEvent(1).then(event => {
-      console.log(event);
+    console.log("here...");
+    api.getEvent(1).then(data => {
+      console.log(data.positions, '<<<<<<<');
       let mapDimensions = {
-        image: event.event_img,
-        height: event.events_map_height,
-        width: event.events_map_width
+        image: data.event.events_img,
+        height: data.event.events_map_height,
+        width: data.event.events_map_width
       };
       this.setState({
-        mapDimensions
+        mapDimensions,
+        positions: data.positions
       });
     });
     // console.log(api.getEvent);
@@ -143,6 +141,7 @@ export default class MapScreen extends React.Component {
   showStallInfo = () => {
     return showStallInfo;
   };
+
 
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {

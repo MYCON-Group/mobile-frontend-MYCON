@@ -9,12 +9,15 @@ import {
   View,
   Image,
   TouchableOpacity,
-  RefreshControl
+  RefreshControl,
+  Animated,
+  Easing
 } from "react-native";
 import showStallInfo from "../components/showStallInfo";
 import { WebBrowser } from "expo";
 import PinchZoomView from "react-native-pinch-zoom-view";
 import * as api from "../api";
+import MapStall from "../components/MapStall";
 
 export default class MapScreen extends React.Component {
   static navigationOptions = {
@@ -66,7 +69,8 @@ export default class MapScreen extends React.Component {
           top: position.stall_y * s,
           left: position.stall_x * s,
           height: position.stall_height * s,
-          width: position.stall_width * s
+          width: position.stall_width * s,
+          transform: [{ rotate: `${position.stall_rotation}deg` }]
         };
         positions[`mapItem${i}`] = newPosition;
       });
@@ -79,7 +83,13 @@ export default class MapScreen extends React.Component {
       subStyles = StyleSheet.create({
         globalMapStall: {
           backgroundColor: 'blue',
-          position: 'absolute'
+          position: 'absolute',
+          borderRadius: 2,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.8,
+          shadowRadius: 2,
+          elevation: 1
         },
         ...positions
       });
@@ -114,10 +124,7 @@ export default class MapScreen extends React.Component {
                 }}
               />
               {Object.values(this.state.positions).map((position, i) => (
-                <TouchableOpacity
-                  key={`mapItem${i}`}
-                  style={[subStyles[`mapItem${i}`], subStyles.globalMapStall]}
-                />
+                <MapStall i={i} styles={[subStyles[`mapItem${i}`], subStyles.globalMapStall]} />
               ))}
             </View>
           </ScrollView>

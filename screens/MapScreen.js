@@ -13,6 +13,9 @@ import {
   Animated,
   Easing
 } from "react-native";
+window.navigator.userAgent = 'react-native'
+import SocketIOClient from 'socket.io-client';
+import io from 'socket.io-client/dist/socket.io'
 import showStallInfo from "../components/showStallInfo";
 import { WebBrowser } from "expo";
 import PinchZoomView from "react-native-pinch-zoom-view";
@@ -29,6 +32,11 @@ export default class MapScreen extends React.Component {
     mapDimensions: {},
     positions: {},
   };
+
+  constructor() {
+    super()
+    this.socket = io('http://192.168.230.237:9090', { jsonp: false })
+  }
 
   render() {
     let phoneHeight;
@@ -99,7 +107,7 @@ export default class MapScreen extends React.Component {
                 }}
               />
               {Object.values(this.state.positions).map((position, i) => (
-                <MapStall i={i} styles={[subStyles[`mapItem${i}`], subStyles.globalMapStall]} />
+                <MapStall i={i} styles={[subStyles[`mapItem${i}`], subStyles.globalMapStall]} socket={this.socket} />
               ))}
             </View>
           </ScrollView>

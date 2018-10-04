@@ -27,32 +27,7 @@ export default class MapScreen extends React.Component {
   state = {
     refreshing: false,
     mapDimensions: {},
-    positions: [
-      {
-        top: 187.90234,
-        left: 568.33203125,
-        height: 121.9375,
-        width: 120
-      },
-      {
-        top: 0,
-        left: 461.4375,
-        height: 56.4219,
-        width: 117.844
-      },
-      {
-        top: 146.26171875,
-        left: 225.574,
-        height: 72.6641,
-        width: 120
-      },
-      {
-        top: 275.484,
-        left: 67.4179,
-        height: 120.328,
-        width: 120
-      }
-    ]
+    positions: {},
   };
 
   render() {

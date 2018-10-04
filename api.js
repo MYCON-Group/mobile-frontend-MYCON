@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const host = "http://192.168.230.56:9090/api";
+const host = 'http://192.168.230.237:9090/api'
+
 // IP : 185.205.172.4
 // export const getEvent = id => {
 //   return axios

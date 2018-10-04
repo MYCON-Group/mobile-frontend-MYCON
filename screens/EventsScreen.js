@@ -18,7 +18,7 @@ export default class EventsScreen extends React.Component {
         <Text> Events! </Text>
         {this.state.events.map(event => {
           return (
-            <View>
+            <View key={event.events_name}>
               <EventCard event={event} />
             </View>
           );

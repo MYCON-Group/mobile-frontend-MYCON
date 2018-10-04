@@ -15,33 +15,33 @@ class MapStall extends Component {
     color: 'blue'
   }
 
-  constructor(props) {
-    super(props)
-    props.socket.on(`stall${this.props.i}`, () => this.setState({ color: this.state.color === 'blue' ? 'red' : 'blue' }))
-  }
-
   render() {
 
-    let { i, styles } = this.props
+    let { styles, id } = this.props
+    console.log('>>>', this.props, '<<<')
     const updateStyle = StyleSheet.create({
       updatedColour: {
         backgroundColor: this.state.color
       }
     })
-    styles = styles.concat(updateStyle.updatedColour)
-    console.log(i)
+    // styles = styles.concat(updateStyle.updatedColour)
     return (
       <TouchableOpacity
-        key={`mapItem${i}`}
+        key={`key${id}`}
         style={styles}
-        onPress={this.emitData}
+        onPress={this.notified}
       />
     );
-
   }
 
-  emitData = () => {
-    this.props.socket.emit('update', `stall${this.props.i}`)
+  componentDidMount() {
+    this.props.socket.on(`stall${this.props.id}`, () => this.setState({ color: 'red' }))
+  }
+
+  notified = () => {
+    this.setState({
+      color: 'blue'
+    })
   }
 }
 

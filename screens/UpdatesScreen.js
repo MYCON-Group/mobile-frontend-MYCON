@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import StallUpdateCard from "../components/StallUpdateCard";
 import * as api from "../api";
+window.navigator.userAgent = 'react-native'
+import io from 'socket.io-client/dist/socket.io'
 
 export default class UpdatesScreen extends React.Component {
   static navigationOptions = {
@@ -12,6 +14,11 @@ export default class UpdatesScreen extends React.Component {
     updateBody: "",
     updates: []
   };
+
+  constructor() {
+    super()
+    this.socket = io('http://192.168.230.237:9090', { jsonp: false })
+  }
 
   componentDidMount() {
     this.getAllUpdates();
@@ -46,18 +53,18 @@ export default class UpdatesScreen extends React.Component {
         </TouchableOpacity>
       </View>
     ) : (
-      <View>
         <View>
-          {this.state.updates.map(update => {
-            return (
-              <View>
-                <StallUpdateCard update={update} />
-              </View>
-            );
-          })}
+          <View>
+            {this.state.updates.map(update => {
+              return (
+                <View>
+                  <StallUpdateCard update={update} />
+                </View>
+              );
+            })}
+          </View>
         </View>
-      </View>
-    );
+      );
   }
 
   handleChange = text => {
@@ -94,12 +101,15 @@ export default class UpdatesScreen extends React.Component {
   };
 
   postUpdate = () => {
+    const { stall_id, event_id } = this.props.screenProps.currentUser
     let update = {
-      stall_id: this.props.screenProps.currentUser.stall_id,
-      events_id: this.props.screenProps.currentUser.event_id,
+      stall_id: stall_id,
+      events_id: event_id,
       updates_body: this.state.updateBody
     };
     api.postUpdate(update).then(response => {
+      console.log(this.socket)
+      this.socket.emit('update', `stall${stall_id}`)
       console.log(response.data);
     });
   };

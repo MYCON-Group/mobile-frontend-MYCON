@@ -8,13 +8,9 @@ import {
   Dimensions,
   View,
   Image,
-  TouchableOpacity,
-  RefreshControl,
-  Animated,
-  Easing
+  RefreshControl
 } from "react-native";
 window.navigator.userAgent = 'react-native'
-import SocketIOClient from 'socket.io-client';
 import io from 'socket.io-client/dist/socket.io'
 import showStallInfo from "../components/showStallInfo";
 import { WebBrowser } from "expo";
@@ -108,7 +104,7 @@ export default class MapScreen extends React.Component {
               />
               {Object.values(this.state.positions).map((position, i) => (
 
-                <MapStall i={i} styles={[subStyles[`mapItem${i}`], subStyles.globalMapStall]} socket={this.socket} />
+                <MapStall key={Object.keys(this.state.positions)[i]} id={Object.keys(this.state.positions)[i]} styles={[subStyles[`mapItem${i}`], subStyles.globalMapStall]} socket={this.socket} />
 
               ))}
             </View>
@@ -144,7 +140,8 @@ export default class MapScreen extends React.Component {
 
         this.setState({
           mapDimensions,
-          positions: data.positions
+          positions: data.positions,
+          refreshing: false
         });
       });
     }
@@ -155,9 +152,7 @@ export default class MapScreen extends React.Component {
   };
 
   _onRefresh = () => {
-    this.setState({ refreshing: true }, () => {
-      this.setState({ refreshing: false });
-    });
+    this.setState({ refreshing: true });
   };
 
   _maybeRenderDevelopmentModeWarning() {

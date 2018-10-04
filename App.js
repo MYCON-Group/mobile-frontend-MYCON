@@ -13,7 +13,11 @@ export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
     isLoggedIn: false,
-    currentUser: "CarlosMuyBueno"
+    currentUser: {
+      event_id: 1,
+      stall_id: 1
+    },
+    event_id: 1
   };
 
   render() {
@@ -33,14 +37,22 @@ export default class App extends React.Component {
             behavior="padding"
             enabled
           >
-            <SignedIn screenProps={{ loggedIn: this.state.isLoggedIn }} />
+            <SignedIn
+              screenProps={{
+                loggedIn: this.state.isLoggedIn,
+                currentUser: this.state.currentUser
+              }}
+            />
           </KeyboardAvoidingView>
         );
       } else {
         return (
           <View style={styles.container}>
             {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-            <SignedOut changeCurrentUser={this.changeCurrentUser} />
+            <SignedOut
+              changeCurrentUser={this.changeCurrentUser}
+              screenProps={{ event_id: this.state.event_id }}
+            />
           </View>
         );
       }

@@ -39,6 +39,9 @@ export const getStallInfo = stall_id => {
   return axios.get(`${host}/stalls/${stall_id}`);
 };
 
+export const createStall = body => {
+  return axios.post(`${host}/stalls`);
+};
 export const postUpdate = body => {
   return axios.post(`${host}/updates`, body);
 };

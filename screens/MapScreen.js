@@ -70,8 +70,6 @@ export default class MapScreen extends React.Component {
       });
     }
 
-    console.log(this.state.mapDimensions);
-
     return isEmpty(this.state.mapDimensions) ? null : (
       <View style={styles.container}>
         <ScrollView

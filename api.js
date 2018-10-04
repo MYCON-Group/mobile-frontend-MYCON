@@ -23,6 +23,10 @@ export const getEvent = id => {
   });
 };
 
+export const getAllEvents = () => {
+  return axios.get(`${host}/events`);
+};
+
 export const getAllUpdates = event_id => {
   return axios.get(`${host}/updates/${event_id}`);
 };

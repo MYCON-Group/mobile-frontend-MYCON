@@ -49,7 +49,6 @@ export default class AdminScreen extends React.Component {
   handleChange = event => {
     let stateKey = event.target.key;
     let stateVal = event.target.value;
-    console.log(event.target);
     if (stateKey === "Name") {
       this.setState({
         Name: stateVal
@@ -58,8 +57,9 @@ export default class AdminScreen extends React.Component {
   };
 
   handleSubmit = () => {
-    console.log("clicked");
+    console.log("Clicked!");
   };
+
   editValue = () => {
     this.setState({
       edit: true

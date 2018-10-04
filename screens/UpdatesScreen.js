@@ -9,16 +9,28 @@ export default class UpdatesScreen extends React.Component {
   };
 
   state = {
-    updateBody: ""
+    updateBody: "",
+    updates: []
   };
 
+  componentDidMount() {
+    this.getAllUpdates();
+  }
+
+  componentWillUpdate(prevProps, prevState) {
+    if (prevState.state) {
+      if (prevState.state.updates.length !== this.state.updates.length) {
+        this.getAllUpdates();
+      }
+    }
+  }
+
   render() {
-    console.log(this.state.updateBody);
     return this.props.screenProps.currentUser ? (
       <View>
         <Text> Updates! </Text>
         <Text> LOGGED IN! </Text>
-        {/* <StallUpdateCard /> */}
+
         <TextInput
           onChangeText={this.handleChange}
           placeholder="Post an update!"
@@ -35,12 +47,15 @@ export default class UpdatesScreen extends React.Component {
       </View>
     ) : (
       <View>
-        <Text> Updates! </Text>
-        <Text> LOGGED OUT! </Text>
-        <TouchableOpacity onPress={this.getAllUpdates}>
-          <Text> Get Update info </Text>
-        </TouchableOpacity>
-        {/* <StallUpdateCard /> */}
+        <View>
+          {this.state.updates.map(update => {
+            return (
+              <View>
+                <StallUpdateCard update={update} />
+              </View>
+            );
+          })}
+        </View>
       </View>
     );
   }
@@ -52,9 +67,10 @@ export default class UpdatesScreen extends React.Component {
   };
 
   getAllUpdates = () => {
-    console.log(this.props.screenProps.event_id);
     api.getAllUpdates(this.props.screenProps.event_id).then(response => {
-      console.log(response.data);
+      this.setState({
+        updates: response.data.update
+      });
     });
   };
 

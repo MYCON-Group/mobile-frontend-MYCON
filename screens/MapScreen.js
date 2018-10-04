@@ -27,7 +27,7 @@ export default class MapScreen extends React.Component {
   state = {
     refreshing: false,
     mapDimensions: {},
-    positions: {},
+    positions: {}
   };
 
   render() {
@@ -57,10 +57,10 @@ export default class MapScreen extends React.Component {
       });
       subStyles = StyleSheet.create({
         globalMapStall: {
-          backgroundColor: 'blue',
-          position: 'absolute',
+          backgroundColor: "blue",
+          position: "absolute",
           borderRadius: 2,
-          shadowColor: '#000',
+          shadowColor: "#000",
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.8,
           shadowRadius: 2,
@@ -74,12 +74,14 @@ export default class MapScreen extends React.Component {
 
     return isEmpty(this.state.mapDimensions) ? null : (
       <View style={styles.container}>
-        <ScrollView refreshControl={
-          <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this._onRefresh}
-          />
-        }>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+            />
+          }
+        >
           <ScrollView
             doAnimateZoomReset={false}
             maximumZoomScale={2}
@@ -99,7 +101,10 @@ export default class MapScreen extends React.Component {
                 }}
               />
               {Object.values(this.state.positions).map((position, i) => (
-                <MapStall i={i} styles={[subStyles[`mapItem${i}`], subStyles.globalMapStall]} />
+                <MapStall
+                  i={i}
+                  styles={[subStyles[`mapItem${i}`], subStyles.globalMapStall]}
+                />
               ))}
             </View>
           </ScrollView>
@@ -109,9 +114,7 @@ export default class MapScreen extends React.Component {
   }
 
   componentDidMount() {
-    console.log("here...");
     api.getEvent(1).then(data => {
-      console.log(data.positions, '<<<<<<<');
       let mapDimensions = {
         image: data.event.events_img,
         height: data.event.events_map_height,
@@ -126,10 +129,8 @@ export default class MapScreen extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log("here...");
     if (this.state.refreshing) {
       api.getEvent(1).then(data => {
-        console.log(data.positions, '<<<<<<<');
         let mapDimensions = {
           image: data.event.events_img,
           height: data.event.events_map_height,
@@ -152,7 +153,7 @@ export default class MapScreen extends React.Component {
     this.setState({ refreshing: true }, () => {
       this.setState({ refreshing: false });
     });
-  }
+  };
 
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {

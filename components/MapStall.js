@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import {
   TouchableOpacity,
@@ -20,6 +21,7 @@ class MapStall extends Component {
   }
 
   render() {
+
     let { i, styles } = this.props
     const updateStyle = StyleSheet.create({
       updatedColour: {
@@ -35,6 +37,7 @@ class MapStall extends Component {
         onPress={this.emitData}
       />
     );
+
   }
 
   emitData = () => {

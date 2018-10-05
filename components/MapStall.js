@@ -1,27 +1,23 @@
-
-import React, { Component } from 'react';
-import {
-  TouchableOpacity,
-  StyleSheet
-} from "react-native";
-window.navigator.userAgent = 'react-native'
-
+import React, { Component } from "react";
+import { TouchableOpacity, StyleSheet, View } from "react-native";
+import ShowStallInfo from "../navigation/AppNavigator";
+window.navigator.userAgent = "react-native";
 
 class MapStall extends Component {
-
   state = {
-    color: 'blue'
-  }
+    color: "blue",
+    showInfo: false
+  };
 
   render() {
-
-    let { styles, id } = this.props
+    let { styles, id } = this.props;
     const updateStyle = StyleSheet.create({
       updatedColour: {
         backgroundColor: this.state.color
       }
-    })
-    styles = styles.concat(updateStyle.updatedColour)
+    });
+    styles = styles.concat(updateStyle.updatedColour);
+
     return (
       <TouchableOpacity
         key={`key${id}`}
@@ -32,14 +28,18 @@ class MapStall extends Component {
   }
 
   componentDidMount() {
-    this.props.socket.on(`stall${this.props.id}`, () => this.setState({ color: 'red' }))
+    this.props.socket.on(`stall${this.props.id}`, () =>
+      this.setState({ color: "red" })
+    );
   }
 
   notified = () => {
     this.setState({
-      color: 'blue'
-    })
-  }
+      color: "blue",
+      showInfo: true
+    });
+    this.props.navigation.navigate("ShowStall", { hello: "hello" });
+  };
 }
 
 export default MapStall;

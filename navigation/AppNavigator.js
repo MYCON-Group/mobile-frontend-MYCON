@@ -5,6 +5,7 @@ import Auth from "./Auth";
 import Login from "../screens/LoginScreen";
 import CreateUser from "../screens/CreateUser";
 import SignedInTabNavigator from "./SignedInTabNavigator";
+import ShowStall from "../screens/ShowStallInfo";
 
 export const SignedOut = createSwitchNavigator(
   {
@@ -21,6 +22,17 @@ export const SignedOut = createSwitchNavigator(
   }
 );
 
-export const SignedIn = createSwitchNavigator({
-  Main: SignedInTabNavigator
-});
+export const SignedIn = createSwitchNavigator(
+  {
+    Main: SignedInTabNavigator,
+    ShowStall: ShowStall
+  },
+  {
+    initialRouteName: "Main",
+    backBehavior: "initialRoute"
+  }
+);
+
+// export const ShowStallInfo = createSwitchNavigator({
+//   Main: ShowStall
+// });

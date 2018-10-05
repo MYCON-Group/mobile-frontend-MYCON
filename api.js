@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = 'http://192.168.100.21:9090/api'
+const host = "http://192.168.100.179:9090/api";
 
 export const getEvent = id => {
   return Promise.all([
@@ -37,4 +37,4 @@ export const postUpdate = body => {
   return axios.post(`${host}/updates`, body);
 };
 
-export const socketHost = '192.168.100.21'
+export const socketHost = "192.168.100.179";

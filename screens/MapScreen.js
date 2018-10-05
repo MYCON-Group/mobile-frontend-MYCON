@@ -10,13 +10,14 @@ import {
   Image,
   RefreshControl
 } from "react-native";
-window.navigator.userAgent = 'react-native'
-import io from 'socket.io-client/dist/socket.io'
+window.navigator.userAgent = 'react-native';
+import io from 'socket.io-client/dist/socket.io';
 import showStallInfo from "../components/showStallInfo";
 import { WebBrowser } from "expo";
-import PinchZoomView from "react-native-pinch-zoom-view";
 import * as api from "../api";
 import MapStall from "../components/MapStall";
+import { socketHost } from '../api'
+
 
 export default class MapScreen extends React.Component {
   static navigationOptions = {
@@ -31,7 +32,7 @@ export default class MapScreen extends React.Component {
 
   constructor() {
     super()
-    this.socket = io('http://192.168.230.237:9090', { jsonp: false })
+    this.socket = io(`http://${socketHost}:9090`, { jsonp: false })
   }
 
   render() {
@@ -49,7 +50,8 @@ export default class MapScreen extends React.Component {
           left: position.stall_x * s,
           height: position.stall_height * s,
           width: position.stall_width * s,
-          transform: [{ rotate: `${position.stall_rotation}deg` }]
+          // this does not work for android
+          // transform: [{ rotate: `${position.stall_rotation}deg` }]
         };
         positions[`mapItem${i}`] = newPosition;
       });
@@ -102,11 +104,10 @@ export default class MapScreen extends React.Component {
                   uri: this.state.mapDimensions.image
                 }}
               />
-              {Object.values(this.state.positions).map((position, i) => (
-
-                <MapStall key={Object.keys(this.state.positions)[i]} id={Object.keys(this.state.positions)[i]} styles={[subStyles[`mapItem${i}`], subStyles.globalMapStall]} socket={this.socket} />
-
-              ))}
+              {Object.values(this.state.positions).map((position, i) => {
+                let id = Object.keys(this.state.positions)[i]
+                return <MapStall key={id} id={id} styles={[subStyles[`mapItem${i}`], subStyles.globalMapStall]} socket={this.socket} />
+              })}
             </View>
           </ScrollView>
         </ScrollView>

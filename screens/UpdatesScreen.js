@@ -4,6 +4,7 @@ import StallUpdateCard from "../components/StallUpdateCard";
 import * as api from "../api";
 window.navigator.userAgent = 'react-native'
 import io from 'socket.io-client/dist/socket.io'
+import { socketHost } from '../api'
 
 export default class UpdatesScreen extends React.Component {
   static navigationOptions = {
@@ -17,10 +18,11 @@ export default class UpdatesScreen extends React.Component {
 
   constructor() {
     super()
-    this.socket = io('http://192.168.230.237:9090', { jsonp: false })
+    this.socket = io(`http://${socketHost}:9090`, { jsonp: false })
   }
 
   componentDidMount() {
+    console.log(socketHost, '<<<<<<<')
     this.getAllUpdates();
   }
 

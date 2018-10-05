@@ -1,13 +1,12 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-export default class TabBarIcon extends React.Component {
+export default class StallUpdateCard extends React.Component {
   render() {
     return (
       <View>
-        <Text> {this.props.details.company} </Text>
-        <Text> {this.props.details.body} </Text>
-        <Text> {this.props.details.logo} </Text>
+        <Text> {this.props.update.updates_body} </Text>
+        <Text> {this.props.update.updates_time} </Text>
       </View>
     );
   }

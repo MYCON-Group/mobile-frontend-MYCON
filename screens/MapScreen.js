@@ -8,11 +8,10 @@ import {
   Dimensions,
   View,
   Image,
-  TouchableOpacity,
-  RefreshControl,
-  Animated,
-  Easing
+  RefreshControl
 } from "react-native";
+window.navigator.userAgent = 'react-native'
+import io from 'socket.io-client/dist/socket.io'
 import showStallInfo from "../components/showStallInfo";
 import { WebBrowser } from "expo";
 import PinchZoomView from "react-native-pinch-zoom-view";
@@ -27,33 +26,13 @@ export default class MapScreen extends React.Component {
   state = {
     refreshing: false,
     mapDimensions: {},
-    positions: [
-      {
-        top: 187.90234,
-        left: 568.33203125,
-        height: 121.9375,
-        width: 120
-      },
-      {
-        top: 0,
-        left: 461.4375,
-        height: 56.4219,
-        width: 117.844
-      },
-      {
-        top: 146.26171875,
-        left: 225.574,
-        height: 72.6641,
-        width: 120
-      },
-      {
-        top: 275.484,
-        left: 67.4179,
-        height: 120.328,
-        width: 120
-      }
-    ]
+    positions: {}
   };
+
+  constructor() {
+    super()
+    this.socket = io('http://192.168.230.237:9090', { jsonp: false })
+  }
 
   render() {
     let phoneHeight;
@@ -82,10 +61,10 @@ export default class MapScreen extends React.Component {
       });
       subStyles = StyleSheet.create({
         globalMapStall: {
-          backgroundColor: 'blue',
-          position: 'absolute',
+          backgroundColor: "blue",
+          position: "absolute",
           borderRadius: 2,
-          shadowColor: '#000',
+          shadowColor: "#000",
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.8,
           shadowRadius: 2,
@@ -95,16 +74,16 @@ export default class MapScreen extends React.Component {
       });
     }
 
-    console.log(this.state.mapDimensions);
-
     return isEmpty(this.state.mapDimensions) ? null : (
       <View style={styles.container}>
-        <ScrollView refreshControl={
-          <RefreshControl
-            refreshing={this.state.refreshing}
-            onRefresh={this._onRefresh}
-          />
-        }>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this._onRefresh}
+            />
+          }
+        >
           <ScrollView
             doAnimateZoomReset={false}
             maximumZoomScale={2}
@@ -124,7 +103,9 @@ export default class MapScreen extends React.Component {
                 }}
               />
               {Object.values(this.state.positions).map((position, i) => (
-                <MapStall i={i} styles={[subStyles[`mapItem${i}`], subStyles.globalMapStall]} />
+
+                <MapStall key={Object.keys(this.state.positions)[i]} id={Object.keys(this.state.positions)[i]} styles={[subStyles[`mapItem${i}`], subStyles.globalMapStall]} socket={this.socket} />
+
               ))}
             </View>
           </ScrollView>
@@ -134,9 +115,7 @@ export default class MapScreen extends React.Component {
   }
 
   componentDidMount() {
-    console.log("here...");
     api.getEvent(1).then(data => {
-      console.log(data.positions, '<<<<<<<');
       let mapDimensions = {
         image: data.event.events_img,
         height: data.event.events_map_height,
@@ -151,10 +130,8 @@ export default class MapScreen extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log("here...");
     if (this.state.refreshing) {
       api.getEvent(1).then(data => {
-        console.log(data.positions, '<<<<<<<');
         let mapDimensions = {
           image: data.event.events_img,
           height: data.event.events_map_height,
@@ -163,7 +140,8 @@ export default class MapScreen extends React.Component {
 
         this.setState({
           mapDimensions,
-          positions: data.positions
+          positions: data.positions,
+          refreshing: false
         });
       });
     }
@@ -174,10 +152,8 @@ export default class MapScreen extends React.Component {
   };
 
   _onRefresh = () => {
-    this.setState({ refreshing: true }, () => {
-      this.setState({ refreshing: false });
-    });
-  }
+    this.setState({ refreshing: true });
+  };
 
   _maybeRenderDevelopmentModeWarning() {
     if (__DEV__) {

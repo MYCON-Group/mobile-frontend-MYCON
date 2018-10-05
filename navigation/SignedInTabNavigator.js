@@ -10,22 +10,6 @@ import EventsScreen from "../screens/EventsScreen";
 import UpdatesScreen from "../screens/UpdatesScreen";
 import AdminScreen from "../screens/AdminScreen";
 
-const MapStack = createStackNavigator({
-  Map: MapScreen
-});
-
-MapStack.navigationOptions = {
-  tabBarLabel: "Map",
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === "ios" ? `ios-map${focused ? "" : "-outline"}` : "md-map"
-      }
-    />
-  )
-};
-
 const EventsStack = createStackNavigator({
   Events: EventsScreen
 });
@@ -44,12 +28,28 @@ EventsStack.navigationOptions = {
   )
 };
 
+const MapStack = createStackNavigator({
+  Map: MapScreen
+});
+
+MapStack.navigationOptions = {
+  tabBarLabel: "Map",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === "ios" ? `ios-map${focused ? "" : "-outline"}` : "md-map"
+      }
+    />
+  )
+};
+
 const UpdatesStack = createStackNavigator({
   Updates: UpdatesScreen
 });
 
 UpdatesStack.navigationOptions = {
-  tabBarLabel: "Updates",
+  tabBarLabel: "Update ",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -81,8 +81,8 @@ AdminStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  MapStack,
   EventsStack,
+  MapStack,
   UpdatesStack,
   AdminStack
 });

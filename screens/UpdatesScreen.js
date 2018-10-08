@@ -83,14 +83,6 @@ export default class UpdatesScreen extends React.Component {
     });
   };
 
-  getStallInfo = () => {
-    api
-      .getStallInfo(this.props.screenProps.currentUser.stall_id)
-      .then(response => {
-        console.log(response.data);
-      });
-  };
-
   getStallUpdates = () => {
     api
       .getStallUpdates(

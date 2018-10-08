@@ -10,14 +10,13 @@ import {
   Image,
   RefreshControl
 } from "react-native";
-window.navigator.userAgent = 'react-native';
-import io from 'socket.io-client/dist/socket.io';
+window.navigator.userAgent = "react-native";
+import io from "socket.io-client/dist/socket.io";
 import showStallInfo from "../components/showStallInfo";
 import { WebBrowser } from "expo";
 import * as api from "../api";
 import MapStall from "../components/MapStall";
-import { socketHost } from '../api'
-
+import { socketHost } from "../api";
 
 export default class MapScreen extends React.Component {
   static navigationOptions = {
@@ -31,8 +30,8 @@ export default class MapScreen extends React.Component {
   };
 
   constructor() {
-    super()
-    this.socket = io(`http://${socketHost}:9090`, { jsonp: false })
+    super();
+    this.socket = io(`http://${socketHost}:9090`, { jsonp: false });
   }
 
   render() {
@@ -49,7 +48,7 @@ export default class MapScreen extends React.Component {
           top: position.stall_y * s,
           left: position.stall_x * s,
           height: position.stall_height * s,
-          width: position.stall_width * s,
+          width: position.stall_width * s
           // this does not work for android
           // transform: [{ rotate: `${position.stall_rotation}deg` }]
         };
@@ -105,8 +104,21 @@ export default class MapScreen extends React.Component {
                 }}
               />
               {Object.values(this.state.positions).map((position, i) => {
-                let id = Object.keys(this.state.positions)[i]
-                return <MapStall key={id} id={id} styles={[subStyles[`mapItem${i}`], subStyles.globalMapStall]} socket={this.socket} />
+                let id = Object.keys(this.state.positions)[i];
+                console.log(id)
+                return (
+                  <MapStall
+                    navigation={this.props.navigation}
+                    toMap={this.toTheMap}
+                    key={id}
+                    id={id}
+                    styles={[
+                      subStyles[`mapItem${i}`],
+                      subStyles.globalMapStall
+                    ]}
+                    socket={this.socket}
+                  />
+                );
               })}
             </View>
           </ScrollView>
@@ -151,6 +163,10 @@ export default class MapScreen extends React.Component {
   showStallInfo = () => {
     return showStallInfo;
   };
+
+  toTheMap = () => {
+    this.props.navigation.navigate('Map')
+  }
 
   _onRefresh = () => {
     this.setState({ refreshing: true });

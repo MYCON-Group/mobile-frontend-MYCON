@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = 'http://192.168.100.21:9090/api'
+const host = "http://192.168.230.75:9090/api";
 
 export const getEvent = id => {
   return Promise.all([
@@ -23,7 +23,7 @@ export const getAllUpdates = event_id => {
 };
 
 export const getStallUpdates = (event_id, stall_id) => {
-  return axios.get(`${host}/updates/${event_id}/${stall_id}`);
+  return axios.get(`${host}/updates/${event_id}/${stall_id}`).catch(console.log);
 };
 
 export const getStallInfo = stall_id => {
@@ -37,4 +37,4 @@ export const postUpdate = body => {
   return axios.post(`${host}/updates`, body);
 };
 
-export const socketHost = '192.168.100.21'
+export const socketHost = "192.168.230.75";

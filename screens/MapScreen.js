@@ -129,7 +129,7 @@ export default class MapScreen extends React.Component {
   }
 
   componentDidMount() {
-    api.getEvent(1).then(data => {
+    api.getEvent(this.props.screenProps.currentUser.event_id).then(data => {
       let mapDimensions = {
         image: data.event.events_img,
         height: data.event.events_map_height,
@@ -148,7 +148,7 @@ export default class MapScreen extends React.Component {
 
   componentDidUpdate() {
     if (this.state.refreshing) {
-      api.getEvent(1).then(data => {
+      api.getEvent(this.props.screenProps.currentUser.event_id).then(data => {
         let mapDimensions = {
           image: data.event.events_img,
           height: data.event.events_map_height,

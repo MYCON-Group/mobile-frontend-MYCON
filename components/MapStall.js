@@ -14,7 +14,8 @@ class MapStall extends Component {
     const updateStyle = StyleSheet.create({
       updatedColour: {
         backgroundColor: this.state.color,
-        borderRadius: 25
+        borderRadius: 25,
+        padding: 5
       }
     });
     styles = styles.concat(updateStyle.updatedColour);
@@ -37,7 +38,7 @@ class MapStall extends Component {
 
   componentDidMount() {
     this.props.socket.on(`stall${this.props.id}`, () =>
-      this.setState({ color: "red" })
+      this.setState({ color: "green" })
     );
   }
 

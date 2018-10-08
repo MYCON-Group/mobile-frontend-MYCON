@@ -18,7 +18,10 @@ export default class EventCard extends React.Component {
       events_location
     } = this.props.event;
     return (
-      <TouchableOpacity style={styles.container}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={() => this.handleUpdate()}
+      >
         <View style={styles.iconView}>
           <Icon.Ionicons
             name={Platform.OS === "ios" ? `ios-star` : "md-star"}
@@ -36,6 +39,14 @@ export default class EventCard extends React.Component {
       </TouchableOpacity>
     );
   }
+
+  handleUpdate = () => {
+    this.props.updateCurrentEvent(this.props.event.events_id);
+    this.props.navigation.navigate("Map", {
+      toMap: this.props.toMap,
+      id: this.props.id
+    });
+  };
 }
 
 const styles = StyleSheet.create({

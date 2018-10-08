@@ -84,7 +84,7 @@ export default class ShowStallInfo extends React.Component {
     Promise.all([
       api.getStallInfo(this.props.navigation.state.params.id),
       api.getStallUpdates(
-        this.props.screenProps.currentUser.event_id,
+        this.props.screenProps.event_id,
         this.props.navigation.state.params.id
       )
     ]).then(([response, updates]) => {

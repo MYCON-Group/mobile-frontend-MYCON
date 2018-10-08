@@ -26,7 +26,8 @@ export default class MapScreen extends React.Component {
     refreshing: false,
     mapDimensions: {},
     positions: {},
-    stallLogos: {}
+    stallLogos: {},
+    mapChange: false
   };
 
   constructor() {
@@ -129,50 +130,46 @@ export default class MapScreen extends React.Component {
   }
 
   componentDidMount() {
-    api.getEvent(this.props.screenProps.currentUser.event_id).then(data => {
+    Promise.all([
+      api.getEvent(this.props.screenProps.event_id),
+      api.getStallLogos(this.props.screenProps.event_id)
+    ]).then(([eventData, logos]) => {
       let mapDimensions = {
-        image: data.event.events_img,
-        height: data.event.events_map_height,
-        width: data.event.events_map_width
+        image: eventData.event.events_img,
+        height: eventData.event.events_map_height,
+        width: eventData.event.events_map_width
       };
-
-      this.setState(
-        {
-          mapDimensions,
-          positions: data.positions
-        },
-        this.getStallLogos()
-      );
+      this.setState({
+        mapDimensions,
+        positions: eventData.positions,
+        stallLogos: logos.data.stalls
+      });
     });
   }
 
-  componentDidUpdate() {
-    if (this.state.refreshing) {
-      api.getEvent(this.props.screenProps.currentUser.event_id).then(data => {
+  componentDidUpdate(prevProps) {
+    if (
+      this.state.refreshing ||
+      this.props.screenProps.event_id !== prevProps.screenProps.event_id
+    ) {
+      Promise.all([
+        api.getEvent(this.props.screenProps.event_id),
+        api.getStallLogos(this.props.screenProps.event_id)
+      ]).then(([eventData, logos]) => {
         let mapDimensions = {
-          image: data.event.events_img,
-          height: data.event.events_map_height,
-          width: data.event.events_map_width
+          image: eventData.event.events_img,
+          height: eventData.event.events_map_height,
+          width: eventData.event.events_map_width
         };
-
         this.setState({
           mapDimensions,
-          positions: data.positions,
-          refreshing: false
+          positions: eventData.positions,
+          refreshing: false,
+          stallLogos: logos.data.stalls
         });
       });
     }
   }
-
-  getStallLogos = () => {
-    api
-      .getStallLogos(this.props.screenProps.currentUser.event_id)
-      .then(response => {
-        this.setState({
-          stallLogos: response.data.stalls
-        });
-      });
-  };
 
   showStallInfo = () => {
     return showStallInfo;

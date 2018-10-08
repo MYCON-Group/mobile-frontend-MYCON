@@ -86,7 +86,7 @@ export default class UpdatesScreen extends React.Component {
 
   getStallUpdates = () => {
     api.getStallUpdates(
-      this.props.screenProps.currentUser.event_id,
+      this.props.screenProps.event_id,
       this.props.screenProps.currentUser.stall_id
     );
   };

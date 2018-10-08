@@ -14,7 +14,6 @@ export default class App extends React.Component {
     isLoadingComplete: false,
     isLoggedIn: true,
     currentUser: {
-      event_id: 1,
       stall_id: 1
     },
     event_id: 1
@@ -39,8 +38,10 @@ export default class App extends React.Component {
           >
             <SignedIn
               screenProps={{
+                updateCurrentEvent: this.updateCurrentEvent,
                 loggedIn: this.state.isLoggedIn,
-                currentUser: this.state.currentUser
+                currentUser: this.state.currentUser,
+                event_id: this.state.event_id
               }}
             />
           </KeyboardAvoidingView>
@@ -51,13 +52,22 @@ export default class App extends React.Component {
             {Platform.OS === "ios" && <StatusBar barStyle="default" />}
             <SignedOut
               changeCurrentUser={this.changeCurrentUser}
-              screenProps={{ event_id: this.state.event_id }}
+              screenProps={{
+                event_id: this.state.event_id,
+                updateCurrentEvent: this.updateCurrentEvent
+              }}
             />
           </View>
         );
       }
     }
   }
+
+  updateCurrentEvent = event => {
+    this.setState({
+      event_id: event
+    });
+  };
 
   changeCurrentUser = user => {
     this.setState({

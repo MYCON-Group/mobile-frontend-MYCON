@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const host = "http://192.168.230.75:9090/api";
+const host = "http://192.168.100.179:9090/api";
 
-const withErrorHandling = (func) => {
-  return ((...args) => {
-    return func(...args).catch(err => err)
-  })
-}
+const withErrorHandling = func => {
+  return (...args) => {
+    return func(...args).catch(err => console.log(err));
+  };
+};
 
 export const getEvent = withErrorHandling(id => {
   return Promise.all([
@@ -44,4 +44,4 @@ export const postUpdate = withErrorHandling(body => {
   return axios.post(`${host}/updates`, body);
 });
 
-export const socketHost = "192.168.230.75";
+export const socketHost = "192.168.100.179";

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 export default class TabBarIcon extends React.Component {
   render() {
@@ -12,3 +12,15 @@ export default class TabBarIcon extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 40,
+    flex: 1,
+    backgroundColor: "#2196F3"
+  },
+  textInput: {
+    height: 40,
+    fontSize: 30
+  }
+});

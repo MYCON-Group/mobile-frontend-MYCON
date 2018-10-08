@@ -2,9 +2,9 @@ import React from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import StallUpdateCard from "../components/StallUpdateCard";
 import * as api from "../api";
-window.navigator.userAgent = 'react-native'
-import io from 'socket.io-client/dist/socket.io'
-import { socketHost } from '../api'
+window.navigator.userAgent = "react-native";
+import io from "socket.io-client/dist/socket.io";
+import { socketHost } from "../api";
 
 export default class UpdatesScreen extends React.Component {
   static navigationOptions = {
@@ -17,12 +17,11 @@ export default class UpdatesScreen extends React.Component {
   };
 
   constructor() {
-    super()
-    this.socket = io(`http://${socketHost}:9090`, { jsonp: false })
+    super();
+    this.socket = io(`http://${socketHost}:9090`, { jsonp: false });
   }
 
   componentDidMount() {
-    console.log(socketHost, '<<<<<<<')
     this.getAllUpdates();
   }
 
@@ -55,18 +54,18 @@ export default class UpdatesScreen extends React.Component {
         </TouchableOpacity>
       </View>
     ) : (
+      <View>
         <View>
-          <View>
-            {this.state.updates.map(update => {
-              return (
-                <View>
-                  <StallUpdateCard update={update} />
-                </View>
-              );
-            })}
-          </View>
+          {this.state.updates.map(update => {
+            return (
+              <View>
+                <StallUpdateCard update={update} />
+              </View>
+            );
+          })}
         </View>
-      );
+      </View>
+    );
   }
 
   handleChange = text => {
@@ -77,34 +76,30 @@ export default class UpdatesScreen extends React.Component {
 
   getAllUpdates = () => {
     api.getAllUpdates(this.props.screenProps.event_id).then(response => {
-      this.setState({
-        updates: response.data.update
-      });
+      if (response.data.update) {
+        this.setState({
+          updates: response.data.update
+        });
+      }
     });
   };
 
   getStallUpdates = () => {
-    api
-      .getStallUpdates(
-        this.props.screenProps.currentUser.event_id,
-        this.props.screenProps.currentUser.stall_id
-      )
-      .then(response => {
-        console.log(response.data);
-      });
+    api.getStallUpdates(
+      this.props.screenProps.currentUser.event_id,
+      this.props.screenProps.currentUser.stall_id
+    );
   };
 
   postUpdate = () => {
-    const { stall_id, event_id } = this.props.screenProps.currentUser
+    const { stall_id, event_id } = this.props.screenProps.currentUser;
     let update = {
       stall_id: stall_id,
       events_id: event_id,
       updates_body: this.state.updateBody
     };
     api.postUpdate(update).then(response => {
-      console.log(this.socket)
-      this.socket.emit('update', `stall${stall_id}`)
-      console.log(response.data);
+      this.socket.emit("update", `stall${stall_id}`);
     });
   };
 }

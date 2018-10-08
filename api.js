@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = "http://192.168.100.179:9090/api";
+const host = "http://192.168.230.56:9090/api";
 
 const withErrorHandling = func => {
   return (...args) => {
@@ -44,4 +44,8 @@ export const postUpdate = withErrorHandling(body => {
   return axios.post(`${host}/updates`, body);
 });
 
-export const socketHost = "192.168.100.179";
+export const getStallLogos = withErrorHandling(event_id => {
+  return axios.get(`${host}/events/${event_id}/stalls`);
+});
+
+export const socketHost = "192.168.230.56";

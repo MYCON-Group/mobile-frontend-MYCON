@@ -12,7 +12,6 @@ import {
 } from "react-native";
 window.navigator.userAgent = "react-native";
 import io from "socket.io-client/dist/socket.io";
-import showStallInfo from "../components/showStallInfo";
 import { WebBrowser } from "expo";
 import * as api from "../api";
 import MapStall from "../components/MapStall";
@@ -26,7 +25,8 @@ export default class MapScreen extends React.Component {
   state = {
     refreshing: false,
     mapDimensions: {},
-    positions: {}
+    positions: {},
+    stallLogos: {}
   };
 
   constructor() {
@@ -75,7 +75,7 @@ export default class MapScreen extends React.Component {
       });
     }
 
-    return isEmpty(this.state.mapDimensions) ? null : (
+    return isEmpty(this.state.mapDimensions && this.state.stallLogos) ? null : (
       <View style={styles.container}>
         <ScrollView
           refreshControl={
@@ -105,9 +105,10 @@ export default class MapScreen extends React.Component {
               />
               {Object.values(this.state.positions).map((position, i) => {
                 let id = Object.keys(this.state.positions)[i];
-                console.log(id)
+
                 return (
                   <MapStall
+                    logo={this.state.stallLogos[id]}
                     navigation={this.props.navigation}
                     toMap={this.toTheMap}
                     key={id}
@@ -135,10 +136,13 @@ export default class MapScreen extends React.Component {
         width: data.event.events_map_width
       };
 
-      this.setState({
-        mapDimensions,
-        positions: data.positions
-      });
+      this.setState(
+        {
+          mapDimensions,
+          positions: data.positions
+        },
+        this.getStallLogos()
+      );
     });
   }
 
@@ -160,13 +164,23 @@ export default class MapScreen extends React.Component {
     }
   }
 
+  getStallLogos = () => {
+    api
+      .getStallLogos(this.props.screenProps.currentUser.event_id)
+      .then(response => {
+        this.setState({
+          stallLogos: response.data.stalls
+        });
+      });
+  };
+
   showStallInfo = () => {
     return showStallInfo;
   };
 
   toTheMap = () => {
-    this.props.navigation.navigate('Map')
-  }
+    this.props.navigation.navigate("Map");
+  };
 
   _onRefresh = () => {
     this.setState({ refreshing: true });

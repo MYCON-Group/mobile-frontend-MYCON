@@ -24,6 +24,7 @@ export default class AdminScreen extends React.Component {
         {Object.values(this.state).map(value => {
           return (
             <AdminEditDetails
+              key={value}
               details={value}
               handleChange={this.handleChange}
             />
@@ -37,7 +38,7 @@ export default class AdminScreen extends React.Component {
       <ScrollView style={styles.container}>
         {Object.values(this.state).map((value, i) => {
           let name = Object.keys(this.state)[i];
-          return <AdminDetails details={value} name={name} />;
+          return <AdminDetails key={value} details={value} name={name} />;
         })}
         <TouchableOpacity onPress={this.editValue}>
           <Text>Edit</Text>
@@ -69,7 +70,9 @@ export default class AdminScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40
+    paddingTop: 40,
+    flex: 1,
+    backgroundColor: "#2196F3"
   },
   textInput: {
     height: 40,

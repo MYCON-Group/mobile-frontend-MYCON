@@ -2,7 +2,13 @@ import axios from "axios";
 
 const host = "http://192.168.100.179:9090/api";
 
-export const getEvent = id => {
+const withErrorHandling = (func) => {
+  return ((...args) => {
+    return func(...args).catch(err => err)
+  })
+}
+
+export const getEvent = withErrorHandling(id => {
   return Promise.all([
     axios.get(`${host}/events/${id}`),
     axios.get(`${host}/events/${id}/map`)
@@ -12,29 +18,30 @@ export const getEvent = id => {
       positions: positionsData.data.event_stalls
     };
   });
-};
+});
 
-export const getAllEvents = () => {
+export const getAllEvents = withErrorHandling(() => {
   return axios.get(`${host}/events`);
-};
+});
 
-export const getAllUpdates = event_id => {
+export const getAllUpdates = withErrorHandling(event_id => {
   return axios.get(`${host}/updates/${event_id}`);
-};
+});
 
-export const getStallUpdates = (event_id, stall_id) => {
+export const getStallUpdates = withErrorHandling((event_id, stall_id) => {
   return axios.get(`${host}/updates/${event_id}/${stall_id}`);
-};
+});
 
-export const getStallInfo = stall_id => {
+export const getStallInfo = withErrorHandling(stall_id => {
   return axios.get(`${host}/stalls/${stall_id}`);
-};
+});
 
-export const createStall = body => {
+export const createStall = withErrorHandling(body => {
   return axios.post(`${host}/stalls`);
-};
-export const postUpdate = body => {
+});
+
+export const postUpdate = withErrorHandling(body => {
   return axios.post(`${host}/updates`, body);
-};
+});
 
 export const socketHost = "192.168.100.179";

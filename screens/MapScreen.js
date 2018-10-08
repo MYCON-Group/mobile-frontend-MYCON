@@ -105,9 +105,11 @@ export default class MapScreen extends React.Component {
               />
               {Object.values(this.state.positions).map((position, i) => {
                 let id = Object.keys(this.state.positions)[i];
+                console.log(id)
                 return (
                   <MapStall
                     navigation={this.props.navigation}
+                    toMap={this.toTheMap}
                     key={id}
                     id={id}
                     styles={[
@@ -161,6 +163,10 @@ export default class MapScreen extends React.Component {
   showStallInfo = () => {
     return showStallInfo;
   };
+
+  toTheMap = () => {
+    this.props.navigation.navigate('Map')
+  }
 
   _onRefresh = () => {
     this.setState({ refreshing: true });

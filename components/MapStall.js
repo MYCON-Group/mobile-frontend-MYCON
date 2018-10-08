@@ -17,7 +17,6 @@ class MapStall extends Component {
       }
     });
     styles = styles.concat(updateStyle.updatedColour);
-
     return (
       <TouchableOpacity
         key={`key${id}`}
@@ -38,7 +37,7 @@ class MapStall extends Component {
       color: "blue",
       showInfo: true
     });
-    this.props.navigation.navigate("ShowStall", { hello: "hello" });
+    this.props.navigation.navigate("ShowStall", { toMap: this.props.toMap, id: this.props.id });
   };
 }
 

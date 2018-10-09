@@ -7,7 +7,9 @@ export default class TabBarIcon extends React.Component {
       <View key={this.props.name}>
         <TextInput
           value={this.props.details}
-          onChange={this.props.handleChange}
+          onChangeText={text =>
+            this.props.handleChange(text, this.props.stallInfoParam)
+          }
         />
       </View>
     );

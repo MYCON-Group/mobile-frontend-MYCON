@@ -80,7 +80,9 @@ export default class LoginScreen extends React.Component {
     };
     api.getStallName(submitInfo.username).then(response => {
       if (response.status === 200) {
-        this.props.screenProps.changeCurrentUser(response.data.stall.stall_id);
+        this.props.screenProps.changeCurrentUser({
+          stall_id: response.data.stall.stall_id
+        });
       } else {
         // SOMETHING
         console.log(response.status);

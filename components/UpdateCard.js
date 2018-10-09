@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#BBDEFB",
     borderWidth: 1,
-    width: "90%"
+    width: 300
   },
   updateTitle: {
     color: "#FFFFFF",

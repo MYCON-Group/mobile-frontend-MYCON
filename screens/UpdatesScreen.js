@@ -66,16 +66,18 @@ export default class UpdatesScreen extends React.Component {
       </View>
     ) : (
         <View style={styles.container}>
-          <Text style={styles.updateHeader}> Recent Updates </Text>
-          <View>
-            {this.state.updates.map(update => {
-              return (
-                <UpdateCard
-                  key={update.updates_id}
-                  body={update.updates_body} />
-              );
-            })}
-          </View>
+          <ScrollView contentContainerStyle={styles.stall}>
+            <Text style={styles.updateHeader}> Recent Updates </Text>
+            <View>
+              {this.state.updates.map(update => {
+                return (
+                  <UpdateCard
+                    key={update.updates_id}
+                    body={update.updates_body} />
+                );
+              })}
+            </View>
+          </ScrollView>
         </View>
       );
   }

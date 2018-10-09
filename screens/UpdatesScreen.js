@@ -18,7 +18,7 @@ export default class UpdatesScreen extends React.Component {
 
   constructor() {
     super();
-    this.socket = io(`http://${socketHost}:9090`, { jsonp: false });
+    this.socket = io(`http://${socketHost}:443`, { jsonp: false });
   }
 
   componentDidMount() {

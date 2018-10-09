@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = "http://192.168.230.56:9090/api";
+const host = "http://18.130.80.91:443/api";
 
 const withErrorHandling = func => {
   return (...args) => {
@@ -48,4 +48,4 @@ export const getStallLogos = withErrorHandling(event_id => {
   return axios.get(`${host}/events/${event_id}/stalls`);
 });
 
-export const socketHost = "192.168.230.56";
+export const socketHost = "18.130.80.91";

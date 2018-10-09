@@ -51,8 +51,8 @@ export default class App extends React.Component {
           <View style={styles.container}>
             {Platform.OS === "ios" && <StatusBar barStyle="default" />}
             <SignedOut
-              changeCurrentUser={this.changeCurrentUser}
               screenProps={{
+                changeCurrentUser: this.changeCurrentUser,
                 event_id: this.state.event_id,
                 updateCurrentEvent: this.updateCurrentEvent
               }}
@@ -71,7 +71,8 @@ export default class App extends React.Component {
 
   changeCurrentUser = user => {
     this.setState({
-      currentUser: user
+      currentUser: user,
+      isLoggedIn: true
     });
   };
 

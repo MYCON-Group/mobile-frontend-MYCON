@@ -20,6 +20,10 @@ export const getEvent = withErrorHandling(id => {
   });
 });
 
+export const getStallName = withErrorHandling(stall_name => {
+  return axios.get(`${host}/stalls/${stall_name}/login`);
+});
+
 export const getAllEvents = withErrorHandling(() => {
   return axios.get(`${host}/events`);
 });

@@ -4,7 +4,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  ScrollView
 } from "react-native";
 import StallUpdateCard from "../components/StallUpdateCard";
 import UpdateCard from "../components/UpdateCard";
@@ -43,36 +44,40 @@ export default class UpdatesScreen extends React.Component {
   render() {
     return this.props.screenProps.currentUser ? (
       <View style={styles.container}>
-        <Text style={styles.updateHeader}> Post an Update</Text>
-        <TextInput
-          onChangeText={this.handleChange}
-          placeholder="Post an update!"
-        />
-        <TouchableOpacity onPress={this.postUpdate}>
-          <Text> Post</Text>
-        </TouchableOpacity>
-        <View>
-          {this.state.updates.map(update => {
-            return (
-              <View key={update.updates_id}>
-                <UpdateCard update={update} />
-              </View>
-            );
-          })}
-        </View>
-      </View>
-    ) : (
-        <View style={styles.container}>
-          <Text style={styles.updateHeader}> Recent Updates </Text>
+        <ScrollView contentContainerStyle={styles.stall}>
+          <Text style={styles.updateHeader}> Post an Update</Text>
+          <TextInput
+            onChangeText={this.handleChange}
+            placeholder="Post an update!"
+          />
+          <TouchableOpacity onPress={this.postUpdate}>
+            <Text> Post</Text>
+          </TouchableOpacity>
           <View>
             {this.state.updates.map(update => {
               return (
-                <View key={update.updates_id}>
-                  <UpdateCard update={update} />
-                </View>
+                <UpdateCard
+                  key={update.updates_id}
+                  body={update.updates_body} />
               );
             })}
           </View>
+        </ScrollView>
+      </View>
+    ) : (
+        <View style={styles.container}>
+          <ScrollView contentContainerStyle={styles.stall}>
+            <Text style={styles.updateHeader}> Recent Updates </Text>
+            <View>
+              {this.state.updates.map(update => {
+                return (
+                  <UpdateCard
+                    key={update.updates_id}
+                    body={update.updates_body} />
+                );
+              })}
+            </View>
+          </ScrollView>
         </View>
       );
   }
@@ -120,14 +125,27 @@ export default class UpdatesScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#0a7ddf",
+    paddingTop: 30,
+    paddingBottom: 30,
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
     flex: 1,
-    paddingTop: 15,
-    backgroundColor: "#2196F3"
+    position: "relative"
   },
-  updateHeader: {
-    color: "#fff",
-    fontSize: 40,
-    flexDirection: "row",
-    textAlign: "center"
+  stall: {
+    alignItems: "center",
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0
   }
+  // ,
+  // updateHeader: {
+  //   color: "#fff",
+  //   fontSize: 40,
+  //   flexDirection: "row",
+  //   textAlign: "center"
+  // }
 });

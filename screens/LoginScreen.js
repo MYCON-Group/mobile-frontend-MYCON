@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity
 } from "react-native";
+import * as api from "../api";
 
 export default class LoginScreen extends React.Component {
   static navigationOptions = {
@@ -77,7 +78,8 @@ export default class LoginScreen extends React.Component {
       username: this.state.username,
       password: this.state.password
     };
-    //This needs sending to password auth
+
+    this.props.screenProps.changeCurrentUser();
   };
 
   handleCreateAccount = () => {

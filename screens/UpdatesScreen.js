@@ -1,6 +1,13 @@
 import React from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet
+} from "react-native";
 import StallUpdateCard from "../components/StallUpdateCard";
+import UpdateCard from "../components/UpdateCard";
 import * as api from "../api";
 window.navigator.userAgent = "react-native";
 import io from "socket.io-client/dist/socket.io";
@@ -35,10 +42,8 @@ export default class UpdatesScreen extends React.Component {
 
   render() {
     return this.props.screenProps.currentUser ? (
-      <View>
-        <Text> Updates! </Text>
-        <Text> LOGGED IN! </Text>
-
+      <View style={styles.container}>
+        <Text style={styles.updateHeader}> Post an Update</Text>
         <TextInput
           onChangeText={this.handleChange}
           placeholder="Post an update!"
@@ -46,20 +51,15 @@ export default class UpdatesScreen extends React.Component {
         <TouchableOpacity onPress={this.postUpdate}>
           <Text> Post</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={this.getStallUpdates}>
-          <Text> Get Updates </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.getStallInfo}>
-          <Text> Get Stall info </Text>
-        </TouchableOpacity>
       </View>
     ) : (
-      <View>
+      <View style={styles.container}>
+        <Text style={styles.updateHeader}> Recent Updates </Text>
         <View>
           {this.state.updates.map(update => {
             return (
-              <View>
-                <StallUpdateCard update={update} />
+              <View key={update.updates_id}>
+                <UpdateCard update={update} />
               </View>
             );
           })}
@@ -104,3 +104,17 @@ export default class UpdatesScreen extends React.Component {
     });
   };
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 15,
+    backgroundColor: "#2196F3"
+  },
+  updateHeader: {
+    color: "#fff",
+    fontSize: 40,
+    flexDirection: "row",
+    textAlign: "center"
+  }
+});

@@ -18,7 +18,6 @@ export default class ShowStallInfo extends React.Component {
     email: ""
   };
   render() {
-    console.log(this.state.updates);
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.stall}>
@@ -55,15 +54,15 @@ export default class ShowStallInfo extends React.Component {
           </TouchableOpacity>
           {this.state.updates
             ? this.state.updates
-                .map(update => {
-                  return (
-                    <UpdateCard
-                      key={update.updates_id}
-                      body={update.updates_body}
-                    />
-                  );
-                })
-                .reverse()
+              .map(update => {
+                return (
+                  <UpdateCard
+                    key={update.updates_id}
+                    body={update.updates_body}
+                  />
+                );
+              })
+              .reverse()
             : null}
         </ScrollView>
       </View>

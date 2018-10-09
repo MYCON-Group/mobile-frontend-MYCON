@@ -10,7 +10,6 @@ import { Icon } from "expo";
 
 export default class UpdateCard extends React.Component {
   render() {
-    console.log(this.props.update);
     return (
       <View style={styles.container}>
         <View style={styles.iconView}>

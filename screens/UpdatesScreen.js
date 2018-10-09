@@ -29,13 +29,13 @@ export default class UpdatesScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.getAllUpdates();
+    this.props.screenProps.currentUser.stall_id ? this.getStallUpdates() : this.getAllUpdates();
   }
 
   componentWillUpdate(prevProps, prevState) {
     if (prevState.state) {
       if (prevState.state.updates.length !== this.state.updates.length) {
-        this.getAllUpdates();
+        this.props.screenProps.currentUser ? this.getStallUpdates() : this.getAllUpdates();
       }
     }
   }
@@ -51,10 +51,6 @@ export default class UpdatesScreen extends React.Component {
         <TouchableOpacity onPress={this.postUpdate}>
           <Text> Post</Text>
         </TouchableOpacity>
-      </View>
-    ) : (
-      <View style={styles.container}>
-        <Text style={styles.updateHeader}> Recent Updates </Text>
         <View>
           {this.state.updates.map(update => {
             return (
@@ -65,7 +61,20 @@ export default class UpdatesScreen extends React.Component {
           })}
         </View>
       </View>
-    );
+    ) : (
+        <View style={styles.container}>
+          <Text style={styles.updateHeader}> Recent Updates </Text>
+          <View>
+            {this.state.updates.map(update => {
+              return (
+                <View key={update.updates_id}>
+                  <UpdateCard update={update} />
+                </View>
+              );
+            })}
+          </View>
+        </View>
+      );
   }
 
   handleChange = text => {
@@ -88,13 +97,16 @@ export default class UpdatesScreen extends React.Component {
     api.getStallUpdates(
       this.props.screenProps.event_id,
       this.props.screenProps.currentUser.stall_id
-    );
+    ).then(response => {
+      this.setState({
+        updates: response.data.updates
+      })
+    })
   };
 
   postUpdate = () => {
     const { stall_id } = this.props.screenProps.currentUser;
     const { event_id } = this.props.screenProps;
-    console.log(this.props.screenProps);
     let update = {
       stall_id: stall_id,
       events_id: event_id,

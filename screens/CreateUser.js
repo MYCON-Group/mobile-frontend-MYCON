@@ -26,8 +26,6 @@ export default class Auth extends React.Component {
   };
 
   render() {
-    console.log(this.state.stall);
-
     return (
       <ScrollView style={styles.container}>
         <Text> Name </Text>

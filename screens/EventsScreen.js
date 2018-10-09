@@ -15,11 +15,15 @@ export default class EventsScreen extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Text> Events! </Text>
+        <Text style={styles.title}> Select an Event </Text>
         {this.state.events.map(event => {
           return (
             <View key={event.events_name}>
-              <EventCard event={event} />
+              <EventCard
+                navigation={this.props.navigation}
+                updateCurrentEvent={this.props.screenProps.updateCurrentEvent}
+                event={event}
+              />
             </View>
           );
         })}
@@ -44,6 +48,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
-    backgroundColor: "#fff"
+    backgroundColor: "#2196F3"
+  },
+  title: {
+    color: "#fff",
+    fontSize: 40,
+    flex: 1,
+    flexDirection: "row",
+    textAlign: "center"
   }
 });

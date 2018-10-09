@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, ScrollView, TouchableOpacity, Text } from "react-native";
 import AdminEditDetails from "../components/AdminEditDetails";
 import AdminDetails from "../components/AdminDetails";
+import * as api from "../api";
 
 export default class AdminScreen extends React.Component {
   static navigationOptions = {
@@ -9,23 +10,27 @@ export default class AdminScreen extends React.Component {
   };
 
   state = {
-    Name: "wewe",
-    Logo: "www.logo.com",
-    Description: "this is my stall!",
-    Email: "stall@stall.com",
-    webAddress: "www.stall.com",
-    contactNo: "0125121253",
+    stallInfo: {
+      Name: "",
+      Logo: "",
+      Description: "",
+      Email: "",
+      webAddress: "",
+      contactNo: ""
+    },
     edit: false
   };
 
   render() {
     return this.state.edit ? (
       <ScrollView style={styles.container}>
-        {Object.values(this.state).map(value => {
+        {Object.values(this.state.stallInfo).map((value, i) => {
           return (
             <AdminEditDetails
+              key={i}
               details={value}
               handleChange={this.handleChange}
+              stallInfoParam={Object.keys(this.state.stallInfo)[i]}
             />
           );
         })}
@@ -35,10 +40,12 @@ export default class AdminScreen extends React.Component {
       </ScrollView>
     ) : (
       <ScrollView style={styles.container}>
-        {Object.values(this.state).map((value, i) => {
-          let name = Object.keys(this.state)[i];
-          return <AdminDetails details={value} name={name} />;
-        })}
+        {this.state.stallInfo
+          ? Object.values(this.state.stallInfo).map((value, i) => {
+              let name = Object.keys(this.state.stallInfo)[i];
+              return <AdminDetails key={i} details={value} name={name} />;
+            })
+          : null}
         <TouchableOpacity onPress={this.editValue}>
           <Text>Edit</Text>
         </TouchableOpacity>
@@ -46,18 +53,34 @@ export default class AdminScreen extends React.Component {
     );
   }
 
-  handleChange = event => {
-    let stateKey = event.target.key;
-    let stateVal = event.target.value;
-    if (stateKey === "Name") {
+  componentDidMount() {
+    api.getStallInfo(this.props.screenProps.currentUser).then(response => {
+      const stallInfo = {
+        Name: response.data.stall.stall_name,
+        Logo: response.data.stall.stall_logo,
+        Description: response.data.stall.stall_description,
+        Email: response.data.stall.stall_email,
+        webAddress: response.data.stall.stall_web_address,
+        contactNo: response.data.stall.stall_ctn
+      };
       this.setState({
-        Name: stateVal
+        stallInfo: stallInfo
       });
-    }
+    });
+  }
+
+  handleChange = (value, key) => {
+    const newObject = {
+      ...this.state.stallInfo,
+      [key]: value
+    };
+    this.setState({
+      stallInfo: newObject
+    });
   };
 
   handleSubmit = () => {
-    console.log("Clicked!");
+    console.log(this.state);
   };
 
   editValue = () => {
@@ -69,7 +92,9 @@ export default class AdminScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40
+    paddingTop: 40,
+    flex: 1,
+    backgroundColor: "#2196F3"
   },
   textInput: {
     height: 40,

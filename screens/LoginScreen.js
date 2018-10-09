@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity
 } from "react-native";
+import * as api from "../api";
 
 export default class LoginScreen extends React.Component {
   static navigationOptions = {
@@ -29,7 +30,7 @@ export default class LoginScreen extends React.Component {
               value={this.state.username}
               underlineColorAndroid="transparent"
               style={styles.userInput}
-              onChange={this.handleChange}
+              onChangeText={this.handleChange}
             />
           </TouchableOpacity>
 
@@ -38,7 +39,7 @@ export default class LoginScreen extends React.Component {
               underlineColorAndroid="transparent"
               secureTextEntry={true}
               style={styles.userInput}
-              onChange={this.handlePasswordChange}
+              onChangeText={this.handlePasswordChange}
             />
           </TouchableOpacity>
 
@@ -60,15 +61,15 @@ export default class LoginScreen extends React.Component {
     );
   }
 
-  handleChange = event => {
+  handleChange = text => {
     this.setState({
-      username: event.target.value
+      username: text
     });
   };
 
-  handlePasswordChange = event => {
+  handlePasswordChange = text => {
     this.setState({
-      password: event.target.value
+      password: text
     });
   };
 
@@ -77,7 +78,16 @@ export default class LoginScreen extends React.Component {
       username: this.state.username,
       password: this.state.password
     };
-    //This needs sending to password auth
+    api.getStallName(submitInfo.username).then(response => {
+      if (response.status === 200) {
+        this.props.screenProps.changeCurrentUser({
+          stall_id: response.data.stall.stall_id
+        });
+      } else {
+        // SOMETHING
+        console.log(response.status);
+      }
+    });
   };
 
   handleCreateAccount = () => {

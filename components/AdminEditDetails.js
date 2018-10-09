@@ -1,17 +1,16 @@
 import React from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, StyleSheet, TextInput } from "react-native";
 
 export default class TabBarIcon extends React.Component {
   render() {
     return (
-      <View>
-        <View>
-          <TextInput
-            key={this.props.name}
-            value={this.props.details}
-            onChange={this.props.handleChange}
-          />
-        </View>
+      <View key={this.props.name}>
+        <TextInput
+          value={this.props.details}
+          onChangeText={text =>
+            this.props.handleChange(text, this.props.stallInfoParam)
+          }
+        />
       </View>
     );
   }

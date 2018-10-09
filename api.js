@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const host = "http://192.168.230.75:9090/api";
+const host = "http://18.130.80.91:443/api";
 
-const withErrorHandling = (func) => {
-  return ((...args) => {
-    return func(...args).catch(err => err)
-  })
-}
+const withErrorHandling = func => {
+  return (...args) => {
+    return func(...args).catch(err => console.log(err));
+  };
+};
 
 export const getEvent = withErrorHandling(id => {
   return Promise.all([
@@ -18,6 +18,10 @@ export const getEvent = withErrorHandling(id => {
       positions: positionsData.data.event_stalls
     };
   });
+});
+
+export const getStallName = withErrorHandling(stall_name => {
+  return axios.get(`${host}/stalls/${stall_name}/login`);
 });
 
 export const getAllEvents = withErrorHandling(() => {
@@ -44,4 +48,8 @@ export const postUpdate = withErrorHandling(body => {
   return axios.post(`${host}/updates`, body);
 });
 
-export const socketHost = "192.168.230.75";
+export const getStallLogos = withErrorHandling(event_id => {
+  return axios.get(`${host}/events/${event_id}/stalls`);
+});
+
+export const socketHost = "18.130.80.91";

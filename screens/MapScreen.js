@@ -12,7 +12,6 @@ import {
 } from "react-native";
 window.navigator.userAgent = "react-native";
 import io from "socket.io-client/dist/socket.io";
-import showStallInfo from "../components/showStallInfo";
 import { WebBrowser } from "expo";
 import * as api from "../api";
 import MapStall from "../components/MapStall";
@@ -26,12 +25,14 @@ export default class MapScreen extends React.Component {
   state = {
     refreshing: false,
     mapDimensions: {},
-    positions: {}
+    positions: {},
+    stallLogos: {},
+    mapChange: false
   };
 
   constructor() {
     super();
-    this.socket = io(`http://${socketHost}:9090`, { jsonp: false });
+    this.socket = io(`http://${socketHost}:443`, { jsonp: false });
   }
 
   render() {
@@ -75,7 +76,7 @@ export default class MapScreen extends React.Component {
       });
     }
 
-    return isEmpty(this.state.mapDimensions) ? null : (
+    return isEmpty(this.state.mapDimensions && this.state.stallLogos) ? null : (
       <View style={styles.container}>
         <ScrollView
           refreshControl={
@@ -105,9 +106,10 @@ export default class MapScreen extends React.Component {
               />
               {Object.values(this.state.positions).map((position, i) => {
                 let id = Object.keys(this.state.positions)[i];
-                console.log(id)
+
                 return (
                   <MapStall
+                    logo={this.state.stallLogos[id]}
                     navigation={this.props.navigation}
                     toMap={this.toTheMap}
                     key={id}
@@ -128,33 +130,42 @@ export default class MapScreen extends React.Component {
   }
 
   componentDidMount() {
-    api.getEvent(1).then(data => {
+    Promise.all([
+      api.getEvent(this.props.screenProps.event_id),
+      api.getStallLogos(this.props.screenProps.event_id)
+    ]).then(([eventData, logos]) => {
       let mapDimensions = {
-        image: data.event.events_img,
-        height: data.event.events_map_height,
-        width: data.event.events_map_width
+        image: eventData.event.events_img,
+        height: eventData.event.events_map_height,
+        width: eventData.event.events_map_width
       };
-
       this.setState({
         mapDimensions,
-        positions: data.positions
+        positions: eventData.positions,
+        stallLogos: logos.data.stalls
       });
     });
   }
 
-  componentDidUpdate() {
-    if (this.state.refreshing) {
-      api.getEvent(1).then(data => {
+  componentDidUpdate(prevProps) {
+    if (
+      this.state.refreshing ||
+      this.props.screenProps.event_id !== prevProps.screenProps.event_id
+    ) {
+      Promise.all([
+        api.getEvent(this.props.screenProps.event_id),
+        api.getStallLogos(this.props.screenProps.event_id)
+      ]).then(([eventData, logos]) => {
         let mapDimensions = {
-          image: data.event.events_img,
-          height: data.event.events_map_height,
-          width: data.event.events_map_width
+          image: eventData.event.events_img,
+          height: eventData.event.events_map_height,
+          width: eventData.event.events_map_width
         };
-
         this.setState({
           mapDimensions,
-          positions: data.positions,
-          refreshing: false
+          positions: eventData.positions,
+          refreshing: false,
+          stallLogos: logos.data.stalls
         });
       });
     }
@@ -165,8 +176,8 @@ export default class MapScreen extends React.Component {
   };
 
   toTheMap = () => {
-    this.props.navigation.navigate('Map')
-  }
+    this.props.navigation.navigate("Map");
+  };
 
   _onRefresh = () => {
     this.setState({ refreshing: true });

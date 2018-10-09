@@ -12,9 +12,8 @@ import { SignedIn, SignedOut } from "./navigation/AppNavigator";
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
-    isLoggedIn: true,
+    isLoggedIn: false,
     currentUser: {
-      event_id: 1,
       stall_id: 1
     },
     event_id: 1
@@ -39,8 +38,10 @@ export default class App extends React.Component {
           >
             <SignedIn
               screenProps={{
+                updateCurrentEvent: this.updateCurrentEvent,
                 loggedIn: this.state.isLoggedIn,
-                currentUser: this.state.currentUser
+                currentUser: this.state.currentUser,
+                event_id: this.state.event_id
               }}
             />
           </KeyboardAvoidingView>
@@ -50,8 +51,11 @@ export default class App extends React.Component {
           <View style={styles.container}>
             {Platform.OS === "ios" && <StatusBar barStyle="default" />}
             <SignedOut
-              changeCurrentUser={this.changeCurrentUser}
-              screenProps={{ event_id: this.state.event_id }}
+              screenProps={{
+                changeCurrentUser: this.changeCurrentUser,
+                event_id: this.state.event_id,
+                updateCurrentEvent: this.updateCurrentEvent
+              }}
             />
           </View>
         );
@@ -59,9 +63,16 @@ export default class App extends React.Component {
     }
   }
 
+  updateCurrentEvent = event => {
+    this.setState({
+      event_id: event
+    });
+  };
+
   changeCurrentUser = user => {
     this.setState({
-      currentUser: user
+      currentUser: user,
+      isLoggedIn: true
     });
   };
 

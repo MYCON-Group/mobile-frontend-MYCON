@@ -12,7 +12,7 @@ import { SignedIn, SignedOut } from "./navigation/AppNavigator";
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
-    isLoggedIn: true,
+    isLoggedIn: false,
     currentUser: {
       stall_id: 1
     },

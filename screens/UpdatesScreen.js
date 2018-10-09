@@ -92,7 +92,8 @@ export default class UpdatesScreen extends React.Component {
   };
 
   postUpdate = () => {
-    const { stall_id, event_id } = this.props.screenProps.currentUser;
+    const { stall_id } = this.props.screenProps.currentUser;
+    const { event_id } = this.props.screenProps;
     let update = {
       stall_id: stall_id,
       events_id: event_id,

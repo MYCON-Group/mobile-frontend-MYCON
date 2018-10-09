@@ -14,7 +14,8 @@ export const SignedOut = createSwitchNavigator(
     Auth: Auth,
     Main: MainTabNavigator,
     Login: Login,
-    CreateUser: CreateUser
+    CreateUser: CreateUser,
+    ShowStall: ShowStall
   },
   {
     initialRouteName: "Auth",

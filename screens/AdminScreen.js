@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, ScrollView, TouchableOpacity, Text } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Text,
+  View
+} from "react-native";
 import AdminEditDetails from "../components/AdminEditDetails";
 import AdminDetails from "../components/AdminDetails";
 import * as api from "../api";
@@ -11,67 +17,73 @@ export default class AdminScreen extends React.Component {
 
   state = {
     stallInfo: {
-      stall_name: '',
-      stall_logo: '',
-      stall_description: '',
-      stall_email: '',
-      stall_web_address: '',
-      stall_ctn: ''
+      stall_name: "",
+      stall_logo: "",
+      stall_description: "",
+      stall_email: "",
+      stall_web_address: "",
+      stall_ctn: ""
     },
     edit: false
   };
 
   render() {
+    const keyNames = [
+      "Company Name",
+      "Logo URL",
+      "Description",
+      "Email",
+      "Website URL",
+      "Contact Number"
+    ];
     return this.state.edit ? (
-      <ScrollView style={styles.container}>
-        {Object.values(this.state.stallInfo).map((value, i) => {
-          return (
-            <AdminEditDetails
-              key={i}
-              details={value}
-              handleChange={this.handleChange}
-              stallInfoParam={Object.keys(this.state.stallInfo)[i]}
-            />
-          );
-        })}
-        <TouchableOpacity onPress={this.handleSubmit}>
-          <Text>Submit</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    ) : (
-        <ScrollView style={styles.container}>
-          {this.state.stallInfo
-            ? Object.values(this.state.stallInfo).map((value, i) => {
-              let name = Object.keys(this.state.stallInfo)[i];
-              return <AdminDetails key={i} details={value} name={name} />;
-            })
-            : null}
-          <TouchableOpacity onPress={this.editValue}>
-            <Text>Edit</Text>
+      <View style={styles.container}>
+        <ScrollView>
+          {Object.values(this.state.stallInfo).map((value, i) => {
+            return (
+              <AdminEditDetails
+                key={i}
+                details={value}
+                keyName={keyNames[i]}
+                handleChange={this.handleChange}
+                stallInfoParam={Object.keys(this.state.stallInfo)[i]}
+              />
+            );
+          })}
+          <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
+            <Text style={styles.buttonText}>Submit</Text>
           </TouchableOpacity>
         </ScrollView>
-      );
+      </View>
+    ) : (
+      <View style={styles.container}>
+        <ScrollView>
+          {this.state.stallInfo
+            ? Object.values(this.state.stallInfo).map((value, i) => {
+                let name = Object.keys(this.state.stallInfo)[i];
+                return (
+                  <AdminDetails
+                    key={i}
+                    details={value}
+                    keyName={keyNames[i]}
+                    name={name}
+                    style={styles.container}
+                  />
+                );
+              })
+            : null}
+          <TouchableOpacity style={styles.button} onPress={this.editValue}>
+            <Text style={styles.buttonText}>Edit</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
+    );
   }
 
   componentDidMount() {
-    api.getStallInfo(this.props.screenProps.currentUser.stall_id).then(response => {
-      const stallInfo = {
-        stall_name: response.data.stall.stall_name,
-        stall_logo: response.data.stall.stall_logo,
-        stall_description: response.data.stall.stall_description,
-        stall_email: response.data.stall.stall_email,
-        stall_web_address: response.data.stall.stall_web_address,
-        stall_ctn: response.data.stall.stall_ctn
-      };
-      this.setState({
-        stallInfo: stallInfo
-      });
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps !== this.props)
-      api.getStallInfo(this.props.screenProps.currentUser.stall_id).then(response => {
+    api
+      .getStallInfo(this.props.screenProps.currentUser.stall_id)
+      .then(response => {
         const stallInfo = {
           stall_name: response.data.stall.stall_name,
           stall_logo: response.data.stall.stall_logo,
@@ -86,6 +98,25 @@ export default class AdminScreen extends React.Component {
       });
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props)
+      api
+        .getStallInfo(this.props.screenProps.currentUser.stall_id)
+        .then(response => {
+          const stallInfo = {
+            stall_name: response.data.stall.stall_name,
+            stall_logo: response.data.stall.stall_logo,
+            stall_description: response.data.stall.stall_description,
+            stall_email: response.data.stall.stall_email,
+            stall_web_address: response.data.stall.stall_web_address,
+            stall_ctn: response.data.stall.stall_ctn
+          };
+          this.setState({
+            stallInfo: stallInfo
+          });
+        });
+  }
+
   handleChange = (value, key) => {
     const newObject = {
       ...this.state.stallInfo,
@@ -97,10 +128,13 @@ export default class AdminScreen extends React.Component {
   };
 
   handleSubmit = () => {
-    api.patchStallInfo(this.props.screenProps.currentUser.stall_id, this.state.stallInfo)
+    api.patchStallInfo(
+      this.props.screenProps.currentUser.stall_id,
+      this.state.stallInfo
+    );
     this.setState({
       edit: false
-    })
+    });
   };
 
   editValue = () => {
@@ -112,12 +146,29 @@ export default class AdminScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 40,
+    backgroundColor: "#0a7ddf",
+    paddingTop: 30,
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
     flex: 1,
-    backgroundColor: "#2196F3"
+    position: "relative"
   },
   textInput: {
     height: 40,
     fontSize: 30
+  },
+  button: {
+    backgroundColor: "#fff",
+    width: "30%",
+    borderRadius: 25,
+    margin: 5,
+    height: 40,
+    justifyContent: "center"
+  },
+  buttonText: {
+    textAlign: "center",
+    fontSize: 20,
+    color: "#0a7ddf"
   }
 });

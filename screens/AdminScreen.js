@@ -11,12 +11,12 @@ export default class AdminScreen extends React.Component {
 
   state = {
     stallInfo: {
-      Name: "",
-      Logo: "",
-      Description: "",
-      Email: "",
-      webAddress: "",
-      contactNo: ""
+      stall_name: '',
+      stall_logo: '',
+      stall_description: '',
+      stall_email: '',
+      stall_web_address: '',
+      stall_ctn: ''
     },
     edit: false
   };
@@ -39,34 +39,51 @@ export default class AdminScreen extends React.Component {
         </TouchableOpacity>
       </ScrollView>
     ) : (
-      <ScrollView style={styles.container}>
-        {this.state.stallInfo
-          ? Object.values(this.state.stallInfo).map((value, i) => {
+        <ScrollView style={styles.container}>
+          {this.state.stallInfo
+            ? Object.values(this.state.stallInfo).map((value, i) => {
               let name = Object.keys(this.state.stallInfo)[i];
               return <AdminDetails key={i} details={value} name={name} />;
             })
-          : null}
-        <TouchableOpacity onPress={this.editValue}>
-          <Text>Edit</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    );
+            : null}
+          <TouchableOpacity onPress={this.editValue}>
+            <Text>Edit</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      );
   }
 
   componentDidMount() {
-    api.getStallInfo(this.props.screenProps.currentUser).then(response => {
+    api.getStallInfo(this.props.screenProps.currentUser.stall_id).then(response => {
       const stallInfo = {
-        Name: response.data.stall.stall_name,
-        Logo: response.data.stall.stall_logo,
-        Description: response.data.stall.stall_description,
-        Email: response.data.stall.stall_email,
-        webAddress: response.data.stall.stall_web_address,
-        contactNo: response.data.stall.stall_ctn
+        stall_name: response.data.stall.stall_name,
+        stall_logo: response.data.stall.stall_logo,
+        stall_description: response.data.stall.stall_description,
+        stall_email: response.data.stall.stall_email,
+        stall_web_address: response.data.stall.stall_web_address,
+        stall_ctn: response.data.stall.stall_ctn
       };
       this.setState({
         stallInfo: stallInfo
       });
     });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props)
+      api.getStallInfo(this.props.screenProps.currentUser.stall_id).then(response => {
+        const stallInfo = {
+          stall_name: response.data.stall.stall_name,
+          stall_logo: response.data.stall.stall_logo,
+          stall_description: response.data.stall.stall_description,
+          stall_email: response.data.stall.stall_email,
+          stall_web_address: response.data.stall.stall_web_address,
+          stall_ctn: response.data.stall.stall_ctn
+        };
+        this.setState({
+          stallInfo: stallInfo
+        });
+      });
   }
 
   handleChange = (value, key) => {
@@ -80,7 +97,10 @@ export default class AdminScreen extends React.Component {
   };
 
   handleSubmit = () => {
-    console.log(this.state);
+    api.patchStallInfo(this.props.screenProps.currentUser.stall_id, this.state.stallInfo)
+    this.setState({
+      edit: false
+    })
   };
 
   editValue = () => {

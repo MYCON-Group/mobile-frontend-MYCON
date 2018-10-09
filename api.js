@@ -40,6 +40,10 @@ export const getStallInfo = withErrorHandling(stall_id => {
   return axios.get(`${host}/stalls/${stall_id}`);
 });
 
+export const patchStallInfo = withErrorHandling((stall_id, stall_info) => {
+  return axios.patch(`${host}/stalls/${stall_id}`, stall_info);
+})
+
 export const createStall = withErrorHandling(body => {
   return axios.post(`${host}/stalls`);
 });

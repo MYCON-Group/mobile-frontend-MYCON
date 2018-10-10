@@ -5,7 +5,8 @@ import {
   TextInput,
   KeyboardAvoidingView,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Image
 } from "react-native";
 import * as api from "../api";
 
@@ -23,10 +24,9 @@ export default class LoginScreen extends React.Component {
     return (
       <KeyboardAvoidingView behaviour="padding" enabled style={styles.flex}>
         <View>
-          <Text style={styles.header}> Login </Text>
-
           <TouchableOpacity>
             <TextInput
+              placeholder="username"
               value={this.state.username}
               underlineColorAndroid="transparent"
               style={styles.userInput}
@@ -36,6 +36,7 @@ export default class LoginScreen extends React.Component {
 
           <TouchableOpacity>
             <TextInput
+              placeholder="password"
               underlineColorAndroid="transparent"
               secureTextEntry={true}
               style={styles.userInput}
@@ -51,10 +52,10 @@ export default class LoginScreen extends React.Component {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.containers}
+            style={styles.containersHollow}
             onPress={this.handleCreateAccount}
           >
-            <Text style={styles.buttonText}> Create Account </Text>
+            <Text style={styles.buttonTextHollow}> Create Account </Text>
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -97,29 +98,48 @@ export default class LoginScreen extends React.Component {
 
 const styles = StyleSheet.create({
   userInput: {
-    borderColor: "grey",
-    borderWidth: 1,
     height: 50,
-    fontSize: 22,
+    fontSize: 19,
     marginLeft: 10,
     marginRight: 10,
     marginTop: 5,
-    padding: 5
+    marginBottom: 5,
+    padding: 5,
+    backgroundColor: "#fff"
   },
   flex: {
     flex: 1,
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "#2196F3"
   },
   containers: {
     padding: "2%",
-    backgroundColor: "#5EA1CE",
+    backgroundColor: "#1976D2",
     height: 40,
     marginLeft: 10,
     marginRight: 10,
-    marginTop: 10
+    marginTop: 10,
+    borderRadius: 25,
+    borderColor: "#1976D2",
+    borderWidth: 1
+  },
+  containersHollow: {
+    padding: "2%",
+    backgroundColor: "#fff",
+    height: 40,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 10,
+    borderRadius: 25,
+    borderColor: "#fff",
+    borderWidth: 1
   },
   buttonText: {
     color: "#fff",
+    textAlign: "center"
+  },
+  buttonTextHollow: {
+    color: "#1976D2",
     textAlign: "center"
   },
   header: {

@@ -58,7 +58,7 @@ export default class ShowStallInfo extends React.Component {
                 return (
                   <UpdateCard
                     key={update.updates_id}
-                    body={update.updates_body}
+                    update={update}
                   />
                 );
               })

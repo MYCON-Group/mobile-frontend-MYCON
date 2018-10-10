@@ -26,7 +26,7 @@ export default class LoginScreen extends React.Component {
         <View>
           <TouchableOpacity>
             <TextInput
-              placeholder="username"
+              placeholder="Username"
               value={this.state.username}
               underlineColorAndroid="transparent"
               style={styles.userInput}
@@ -36,7 +36,7 @@ export default class LoginScreen extends React.Component {
 
           <TouchableOpacity>
             <TextInput
-              placeholder="password"
+              placeholder="Password"
               underlineColorAndroid="transparent"
               secureTextEntry={true}
               style={styles.userInput}
@@ -48,9 +48,8 @@ export default class LoginScreen extends React.Component {
             style={styles.containers}
             onPress={this.handleSubmit}
           >
-            <Text style={styles.buttonText}> Login </Text>
+          <Text style={styles.buttonText}> Login </Text>
           </TouchableOpacity>
-
           <TouchableOpacity
             style={styles.containersHollow}
             onPress={this.handleCreateAccount}

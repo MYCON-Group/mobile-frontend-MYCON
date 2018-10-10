@@ -2,16 +2,19 @@ import React from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
   StyleSheet,
-  Platform
+  Platform,
+  ScrollView
 } from "react-native";
 import { Icon } from "expo";
+import moment from 'moment';
 
 export default class UpdateCard extends React.Component {
   render() {
+    const {updates_body, updates_time} = this.props.update
     return (
       <View style={styles.container}>
+      <ScrollView>
         <View style={styles.iconView}>
           <Icon.Ionicons
             name={Platform.OS === "ios" ? `ios-megaphone` : "md-megaphone"}
@@ -21,11 +24,11 @@ export default class UpdateCard extends React.Component {
         </View>
         <View>
           <Text style={styles.updateTitle}>
-            {this.props.update
-              ? this.props.update.updates_body
-              : this.props.body}
+            {updates_body}
           </Text>
+          <Text>{moment(updates_time).fromNow()}</Text>
         </View>
+        </ScrollView>
       </View>
     );
   }

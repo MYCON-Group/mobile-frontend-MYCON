@@ -7,7 +7,8 @@ import {
   TextInput,
   StyleSheet,
   View,
-  Linking
+  Linking,
+  KeyboardAvoidingView
 } from "react-native";
 import * as api from "../api";
 import UpdateCard from "../components/UpdateCard";
@@ -21,7 +22,7 @@ export default class ShowStallInfo extends React.Component {
   };
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         <ScrollView contentContainerStyle={styles.stall}>
           <View style={styles.companyHeader}>
             <Image
@@ -92,7 +93,7 @@ export default class ShowStallInfo extends React.Component {
               : null}
           </View>
         </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 

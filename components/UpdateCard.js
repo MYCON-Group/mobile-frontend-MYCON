@@ -2,30 +2,28 @@ import React from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
   StyleSheet,
-  Platform
+  Platform,
+  ScrollView
 } from "react-native";
 import { Icon } from "expo";
+import moment from 'moment';
 
 export default class UpdateCard extends React.Component {
   render() {
+    const {updates_body, updates_time, stall_name} = this.props.update
     return (
       <View style={styles.container}>
-        <View style={styles.iconView}>
-          <Icon.Ionicons
-            name={Platform.OS === "ios" ? `ios-megaphone` : "md-megaphone"}
-            size={30}
-            color={"#fff"}
-          />
-        </View>
-        <View>
+      <ScrollView>        
+       {!this.props.loggedIn ? <Text style={styles.iconView}>{stall_name}</Text>: null}
+
           <Text style={styles.updateTitle}>
-            {this.props.update
-              ? this.props.update.updates_body
-              : this.props.body}
+            {updates_body}
           </Text>
-        </View>
+          <View style={styles.time}>
+          <Text >{moment(updates_time).fromNow()}</Text>
+          </View>
+        </ScrollView>
       </View>
     );
   }
@@ -45,6 +43,10 @@ const styles = StyleSheet.create({
     borderColor: "#BBDEFB",
     borderWidth: 1,
     width: 300
+  },
+  time:{
+    width: '100%',
+    alignItems: 'flex-end'
   },
   updateTitle: {
     color: "#FFFFFF",

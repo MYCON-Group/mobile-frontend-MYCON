@@ -9,6 +9,7 @@ import {
 import AdminEditDetails from "../components/AdminEditDetails";
 import AdminDetails from "../components/AdminDetails";
 import * as api from "../api";
+import SubmitButton from '../components/SubmitButton';
 
 export default class AdminScreen extends React.Component {
   static navigationOptions = {
@@ -51,9 +52,7 @@ export default class AdminScreen extends React.Component {
             );
           })}
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
-              <Text style={styles.buttonText}>Submit</Text>
-            </TouchableOpacity>
+          <SubmitButton name='Submit' handleSubmit={this.handleSubmit}/>
           </View>
         </ScrollView>
       </View>
@@ -75,9 +74,7 @@ export default class AdminScreen extends React.Component {
               })
               : null}
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.button} onPress={this.editValue}>
-                <Text style={styles.buttonText}>Edit</Text>
-              </TouchableOpacity>
+            <SubmitButton name="Edit" handleSubmit={this.editValue} />
             </View>
           </ScrollView>
         </View>
@@ -165,18 +162,5 @@ const styles = StyleSheet.create({
   textInput: {
     height: 40,
     fontSize: 15
-  },
-  button: {
-    backgroundColor: "#fff",
-    width: "30%",
-    borderRadius: 25,
-    margin: 5,
-    height: 40,
-    justifyContent: "center"
-  },
-  buttonText: {
-    textAlign: "center",
-    fontSize: 20,
-    color: "#0a7ddf"
   }
 });

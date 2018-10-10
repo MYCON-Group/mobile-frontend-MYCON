@@ -7,12 +7,13 @@ import {
   StyleSheet,
   ScrollView
 } from "react-native";
-import StallUpdateCard from "../components/StallUpdateCard";
 import UpdateCard from "../components/UpdateCard";
 import * as api from "../api";
 window.navigator.userAgent = "react-native";
 import io from "socket.io-client/dist/socket.io";
 import { socketHost } from "../api";
+import SubmitButton from '../components/SubmitButton'
+import moment from 'moment';
 
 export default class UpdatesScreen extends React.Component {
   static navigationOptions = {
@@ -33,12 +34,10 @@ export default class UpdatesScreen extends React.Component {
     this.props.screenProps.currentUser ? this.getStallUpdates() : this.getAllUpdates();
   }
 
-  componentWillUpdate(prevProps, prevState) {
-    if (prevState.state) {
-      if (prevState.state.updates.length !== this.state.updates.length) {
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
         this.props.screenProps.currentUser ? this.getStallUpdates() : this.getAllUpdates();
       }
-    }
   }
 
   render() {
@@ -47,36 +46,35 @@ export default class UpdatesScreen extends React.Component {
         <ScrollView contentContainerStyle={styles.stall}>
           <Text style={styles.updateHeader}> Post an Update</Text>
           <TextInput
+            value={this.state.updateBody}
             onChangeText={this.handleChange}
             placeholder="Post an update!"
+            style={styles.textBox}
+            multiline={true}
           />
-          <TouchableOpacity onPress={this.postUpdate}>
-            <Text> Post</Text>
-          </TouchableOpacity>
-          <View>
-            {this.state.updates.map(update => {
-              return (
-                <UpdateCard
-                  key={update.updates_id}
-                  body={update.updates_body} />
-              );
-            })}
-          </View>
+          <SubmitButton handleSubmit={this.postUpdate} name="Submit" disabledBool={this.state.updateBody === ""} />
+          {this.state.updates.map((update, i) => {
+            return (
+              <UpdateCard
+                key={i}
+                update={update}
+                loggedIn={this.props.screenProps.currentUser} />
+            );
+          }).reverse()}
         </ScrollView>
       </View>
     ) : (
         <View style={styles.container}>
           <ScrollView contentContainerStyle={styles.stall}>
             <Text style={styles.updateHeader}> Recent Updates </Text>
-            <View>
-              {this.state.updates.map(update => {
-                return (
-                  <UpdateCard
-                    key={update.updates_id}
-                    body={update.updates_body} />
-                );
-              })}
-            </View>
+            {this.state.updates.map(update => {
+              return (
+                <UpdateCard
+                  key={update.updates_id}
+                  update={update}
+                  />
+              );
+            }).reverse()}
           </ScrollView>
         </View>
       );
@@ -115,10 +113,15 @@ export default class UpdatesScreen extends React.Component {
     let update = {
       stall_id: stall_id,
       events_id: event_id,
-      updates_body: this.state.updateBody
+      updates_body: this.state.updateBody,
+      updates_time: moment().format()
     };
     api.postUpdate(update).then(response => {
       this.socket.emit("update", `stall${stall_id}`);
+    })
+    this.setState({
+      updateBody: '',
+      updates: [...this.state.updates, update]
     });
   };
 }
@@ -128,8 +131,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#0a7ddf",
     paddingTop: 30,
     paddingBottom: 30,
-    height: "100%",
-    width: "100%",
     justifyContent: "center",
     flex: 1,
     position: "relative"
@@ -140,12 +141,17 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0
-  }
-  // ,
-  // updateHeader: {
-  //   color: "#fff",
-  //   fontSize: 40,
-  //   flexDirection: "row",
-  //   textAlign: "center"
-  // }
+  },
+  textBox :{
+    height: 100,
+    width: 300,
+    backgroundColor: "#1976D2"
+  },
+  updateHeader: {
+    color: "#fff",
+    fontSize: 40,
+    flexDirection: "row",
+    textAlign: "center"
+  },
+  
 });

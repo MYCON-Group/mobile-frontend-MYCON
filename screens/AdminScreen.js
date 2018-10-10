@@ -38,7 +38,7 @@ export default class AdminScreen extends React.Component {
     ];
     return this.state.edit ? (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView keyboardShouldPersistTaps='handled'>
           {Object.values(this.state.stallInfo).map((value, i) => {
             return (
               <AdminEditDetails
@@ -50,16 +50,18 @@ export default class AdminScreen extends React.Component {
               />
             );
           })}
-          <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
-            <Text style={styles.buttonText}>Submit</Text>
-          </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={this.handleSubmit}>
+              <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </View>
     ) : (
-      <View style={styles.container}>
-        <ScrollView>
-          {this.state.stallInfo
-            ? Object.values(this.state.stallInfo).map((value, i) => {
+        <View style={styles.container}>
+          <ScrollView keyboardShouldPersistTaps='handled'>
+            {this.state.stallInfo
+              ? Object.values(this.state.stallInfo).map((value, i) => {
                 let name = Object.keys(this.state.stallInfo)[i];
                 return (
                   <AdminDetails
@@ -71,13 +73,15 @@ export default class AdminScreen extends React.Component {
                   />
                 );
               })
-            : null}
-          <TouchableOpacity style={styles.button} onPress={this.editValue}>
-            <Text style={styles.buttonText}>Edit</Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </View>
-    );
+              : null}
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.button} onPress={this.editValue}>
+                <Text style={styles.buttonText}>Edit</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </View>
+      );
   }
 
   componentDidMount() {
@@ -154,9 +158,13 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative"
   },
+  buttonContainer: {
+    width: '100%',
+    alignItems: 'center'
+  },
   textInput: {
     height: 40,
-    fontSize: 30
+    fontSize: 15
   },
   button: {
     backgroundColor: "#fff",

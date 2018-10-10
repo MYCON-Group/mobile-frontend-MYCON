@@ -4,16 +4,19 @@ import { View, StyleSheet, TextInput, Text } from "react-native";
 export default class TabBarIcon extends React.Component {
   render() {
     return (
-      <View key={this.props.name} style={styles.container}>
-        <Text>{this.props.keyName}</Text>
-        <TextInput
-          underlineColorAndroid="transparent"
-          style={styles.textInput}
-          value={this.props.details}
-          onChangeText={text =>
-            this.props.handleChange(text, this.props.stallInfoParam)
-          }
-        />
+      <View>
+        <Text style={styles.label}>{this.props.keyName}:</Text>
+        <View key={this.props.name} style={styles.container}>
+          <TextInput
+            underlineColorAndroid="transparent"
+            multiline={true}
+            style={styles.textInput}
+            value={this.props.details}
+            onChangeText={text =>
+              this.props.handleChange(text, this.props.stallInfoParam)
+            }
+          />
+        </View>
       </View>
     );
   }
@@ -24,11 +27,15 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingLeft: 10,
     flex: 1,
-    margin: 10,
+    marginTop: 5,
+    marginBottom: 10,
+    maxHeight: 150,
     backgroundColor: "#2196F3"
   },
   textInput: {
-    height: 40,
-    fontSize: 30
+    fontSize: 15
+  },
+  label: {
+    marginLeft: 10
   }
 });

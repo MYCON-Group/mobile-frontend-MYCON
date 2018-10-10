@@ -106,7 +106,6 @@ export default class MapScreen extends React.Component {
               />
               {Object.values(this.state.positions).map((position, i) => {
                 let id = Object.keys(this.state.positions)[i];
-
                 return (
                   <MapStall
                     logo={this.state.stallLogos[id]}

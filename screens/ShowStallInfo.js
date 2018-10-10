@@ -246,7 +246,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   companyInfo: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "#0b73c5",
     height: "100%",
     width: "100%",
     justifyContent: "center",

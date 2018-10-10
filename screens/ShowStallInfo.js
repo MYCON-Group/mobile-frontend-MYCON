@@ -6,7 +6,9 @@ import {
   Image,
   TextInput,
   StyleSheet,
-  View
+  View,
+  Linking,
+  KeyboardAvoidingView
 } from "react-native";
 import * as api from "../api";
 import UpdateCard from "../components/UpdateCard";
@@ -15,11 +17,12 @@ export default class ShowStallInfo extends React.Component {
   state = {
     stallInfo: {},
     updates: [],
-    email: ""
+    email: "",
+    signedUp: false
   };
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         <ScrollView contentContainerStyle={styles.stall}>
           <Image
             style={{
@@ -65,13 +68,20 @@ export default class ShowStallInfo extends React.Component {
               .reverse()
             : null}
         </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 
   componentDidMount() {
     this.getStallInfo();
   }
+
+  handleSubmit = () => {
+    this.setState({
+      email: "",
+      signedUp: true
+    });
+  };
 
   handleChange = value => {
     this.setState({
@@ -93,6 +103,10 @@ export default class ShowStallInfo extends React.Component {
       });
     });
   };
+
+  goToURL = URL => {
+    Linking.openURL(`https://${URL}`);
+  };
 }
 
 const styles = StyleSheet.create({
@@ -104,7 +118,9 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     flex: 1,
-    position: "relative"
+    position: "relative",
+    paddingLeft: 10,
+    paddingRight: 10
   },
   stall: {
     alignItems: "center",
@@ -119,17 +135,65 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     margin: 5,
     height: 40,
-    justifyContent: "center"
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "#fff"
+  },
+  buttonDisabled: {
+    backgroundColor: "#BDBDBD",
+    width: "30%",
+    borderRadius: 25,
+    margin: 5,
+    height: 40,
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "#BDBDBD"
+  },
+  buttonHollow: {
+    backgroundColor: "#2196F3",
+    width: "30%",
+    borderRadius: 25,
+    margin: 5,
+    height: 40,
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "#fff"
   },
   buttonText: {
     textAlign: "center",
     fontSize: 20,
     color: "#0a7ddf"
   },
+  buttonTextHollow: {
+    textAlign: "center",
+    fontSize: 20,
+    color: "#fff"
+  },
+  buttonTextSignedUp: {
+    textAlign: "center",
+    fontSize: 20,
+    color: "green"
+  },
   text: {
     margin: 5,
     fontSize: 30,
     color: "#fff"
+  },
+  textHeader: {
+    margin: 5,
+    fontSize: 30,
+    color: "#BBDEFB"
+  },
+  textWeb: {
+    margin: 5,
+    fontSize: 30,
+    color: "#2c3e50"
+  },
+  textDesc: {
+    margin: 5,
+    fontSize: 22,
+    color: "#fff",
+    textAlign: "center"
   },
   textName: {
     fontSize: 50,
@@ -143,5 +207,43 @@ const styles = StyleSheet.create({
   signUp: {
     width: "80%",
     height: 40
+  },
+  companyHeader: {
+    backgroundColor: "#41a5f5",
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    flex: 1,
+    position: "relative",
+    alignItems: "center",
+    paddingTop: 20,
+    paddingBottom: 20,
+    marginBottom: 10
+  },
+  companyInfo: {
+    backgroundColor: "#0b73c5",
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    flex: 1,
+    position: "relative",
+    alignItems: "center",
+    paddingTop: 20,
+    paddingBottom: 20,
+    marginBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  companyUpdates: {
+    backgroundColor: "#41a5f5",
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    flex: 1,
+    position: "relative",
+    alignItems: "center",
+    paddingTop: 20,
+    paddingBottom: 20,
+    marginBottom: 10
   }
 });

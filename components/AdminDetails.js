@@ -21,7 +21,10 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: 5,
     marginBottom: 10,
+    marginLeft: 10,
+    marginRight: 10,
     maxHeight: 150,
+    borderRadius: 3,
     backgroundColor: "#2196F3"
   },
   textInput: {

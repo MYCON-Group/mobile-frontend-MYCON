@@ -49,9 +49,8 @@ export default class MapScreen extends React.Component {
           top: position.stall_y * s,
           left: position.stall_x * s,
           height: position.stall_height * s,
-          width: position.stall_width * s
-          // this does not work for android
-          // transform: [{ rotate: `${position.stall_rotation}deg` }]
+          width: position.stall_width * s,
+          transform: ([{ rotate: `${position.stall_rotation}deg` }])
         };
         positions[`mapItem${i}`] = newPosition;
       });
@@ -106,7 +105,6 @@ export default class MapScreen extends React.Component {
               />
               {Object.values(this.state.positions).map((position, i) => {
                 let id = Object.keys(this.state.positions)[i];
-
                 return (
                   <MapStall
                     logo={this.state.stallLogos[id]}
@@ -171,9 +169,9 @@ export default class MapScreen extends React.Component {
     }
   }
 
-  showStallInfo = () => {
-    return showStallInfo;
-  };
+  // showStallInfo = () => {
+  //   return showStallInfo;
+  // };
 
   toTheMap = () => {
     this.props.navigation.navigate("Map");

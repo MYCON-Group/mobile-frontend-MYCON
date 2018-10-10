@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TouchableOpacity, StyleSheet, View, Image } from "react-native";
+import { TouchableOpacity, StyleSheet, View, Image, TouchableHighlight } from "react-native";
 window.navigator.userAgent = "react-native";
 
 class MapStall extends Component {
@@ -20,19 +20,19 @@ class MapStall extends Component {
     });
     styles = styles.concat(updateStyle.updatedColour);
     return (
-      <TouchableOpacity key={`key${id}`} style={styles} onPress={this.notified}>
+      <TouchableHighlight key={`key${id}`} style={styles} onPress={this.notified}>
         <Image
           style={{
-            height: "100%",
-            width: "100%",
+            height: 100,
+            width: 100,
             alignSelf: "center",
             flex: 1,
             flexDirection: "row",
-            borderRadius: 25
+            borderRadius: 50
           }}
           source={{ uri: logo.stall_logo }}
         />
-      </TouchableOpacity>
+      </TouchableHighlight>
     );
   }
 

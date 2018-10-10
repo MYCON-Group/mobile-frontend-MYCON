@@ -24,49 +24,74 @@ export default class ShowStallInfo extends React.Component {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <ScrollView contentContainerStyle={styles.stall}>
-          <Image
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: 25
-            }}
-            source={{ uri: this.state.stallInfo.stall_logo }}
-          />
-          <Text style={styles.textName}>{this.state.stallInfo.stall_name}</Text>
-          <Text style={styles.text}>
-            {this.state.stallInfo.stall_web_address}
-          </Text>
-          <Text style={styles.text}>
-            {this.state.stallInfo.stall_description}
-          </Text>
-          <Text style={styles.textEmail}>
-            {this.state.stallInfo.stall_email}
-          </Text>
-          <Text style={styles.text}>{this.state.stallInfo.stall_ctn}</Text>
-          <TextInput
-            style={styles.signUp}
-            placeholder="Sign up to our mailing list..."
-            value={this.state.email}
-            onChangeText={this.handleChange}
-          />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.navigation.state.params.toMap()}
-          >
-            <Text style={styles.buttonText}> Back </Text>
-          </TouchableOpacity>
-          {this.state.updates
-            ? this.state.updates
-              .map(update => {
-                return (
-                  <UpdateCard
-                    key={update.updates_id}
-                    update={update}
-                  />
-                );
-              })
-              .reverse()
-            : null}
+          <View style={styles.companyHeader}>
+            <Image
+              style={{
+                width: 100,
+                height: 100,
+                borderRadius: 25
+              }}
+              source={{ uri: this.state.stallInfo.stall_logo }}
+            />
+            <Text style={styles.textName}>
+              {this.state.stallInfo.stall_name}
+            </Text>
+            <TouchableOpacity
+              onPress={() =>
+                this.goToURL(this.state.stallInfo.stall_web_address)
+              }
+            >
+              <Text style={styles.textWeb}>
+                {this.state.stallInfo.stall_web_address}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.companyInfo}>
+            <Text style={styles.textHeader}> Company details</Text>
+            <Text style={styles.textDesc}>
+              {this.state.stallInfo.stall_description}
+            </Text>
+            <Text style={styles.textEmail}>
+              {this.state.stallInfo.stall_email}
+            </Text>
+            <Text style={styles.text}>{this.state.stallInfo.stall_ctn}</Text>
+            <TextInput
+              style={styles.signUp}
+              placeholder="Sign up to our mailing list..."
+              value={this.state.email}
+              onChangeText={this.handleChange}
+            />
+            <TouchableOpacity
+              disabled={this.state.signedUp ? true : false}
+              style={
+                this.state.signedUp ? styles.buttonDisabled : styles.button
+              }
+              onPress={() => this.handleSubmit()}
+            >
+              <Text style={styles.buttonText}> Sign Up </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonHollow}
+              onPress={() => this.props.navigation.state.params.toMap()}
+            >
+              <Text style={styles.buttonTextHollow}> Back </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.companyUpdates}>
+            <Text style={styles.textHeader}> Recent updates </Text>
+            {this.state.updates
+              ? this.state.updates
+                .map(update => {
+                  return (
+                    <UpdateCard
+                      key={update.updates_id}
+                      update={update}
+                    />
+                  );
+                })
+                .reverse()
+              : null}
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     );

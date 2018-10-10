@@ -30,7 +30,7 @@ export default class UpdatesScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.screenProps.currentUser.stall_id ? this.getStallUpdates() : this.getAllUpdates();
+    this.props.screenProps.currentUser ? this.getStallUpdates() : this.getAllUpdates();
   }
 
   componentWillUpdate(prevProps, prevState) {

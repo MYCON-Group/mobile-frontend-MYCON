@@ -57,7 +57,8 @@ export default class UpdatesScreen extends React.Component {
             return (
               <UpdateCard
                 key={i}
-                update={update} />
+                update={update}
+                loggedIn={this.props.screenProps.currentUser} />
             );
           }).reverse()}
         </ScrollView>
@@ -67,11 +68,11 @@ export default class UpdatesScreen extends React.Component {
           <ScrollView contentContainerStyle={styles.stall}>
             <Text style={styles.updateHeader}> Recent Updates </Text>
             {this.state.updates.map(update => {
-              console.log(update)
               return (
                 <UpdateCard
                   key={update.updates_id}
-                  update={update} />
+                  update={update}
+                  />
               );
             }).reverse()}
           </ScrollView>

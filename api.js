@@ -4,7 +4,7 @@ const host = "http://18.130.80.91:443/api";
 
 const withErrorHandling = func => {
   return (...args) => {
-    return func(...args).catch(err => console.log(err));
+    return func(...args).catch(err => console.log(err, '<<'));
   };
 };
 

@@ -27,14 +27,14 @@ export default class Auth extends React.Component {
             style={{ width: 300, height: 300 }}
           />
           <TouchableOpacity style={styles.button} onPress={this.showLogin}>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Sign In</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.buttonHollow}
             onPress={this.showTheApp}
           >
-            <Text style={styles.buttonHollowText}>Show me the app!</Text>
+            <Text style={styles.buttonHollowText}>Take me to the app!</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -53,22 +53,19 @@ export default class Auth extends React.Component {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: "#fff",
-    width: "30%",
     borderRadius: 25,
     margin: 5,
     height: 40,
-    width: 150,
-    width: 200,
+    width: 300,
     justifyContent: "center",
     borderColor: "#fff",
     borderWidth: 1
   },
   buttonHollow: {
     backgroundColor: "#0a7ddf",
-    width: "30%",
     borderRadius: 25,
     margin: 5,
-    width: 200,
+    width: 300,
     height: 40,
     justifyContent: "center",
     borderColor: "#fff",
@@ -87,7 +84,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   container: {
-    backgroundColor: "#0a7ddf",
+    backgroundColor: "#1976D2",
     paddingTop: 100,
     height: "100%",
     width: "100%",

@@ -81,8 +81,8 @@ LoginStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  MapStack,
   EventsStack,
+  MapStack,
   UpdatesStack,
   LoginStack
 });

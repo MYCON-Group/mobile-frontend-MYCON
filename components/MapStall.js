@@ -17,7 +17,6 @@ class MapStall extends Component {
 
   render() {
     let { styles, id, logo, dimensions } = this.props;
-    console.log(dimensions)
     const height = dimensions.h * 0.9
     const width = dimensions.w * 0.9
     const updateStyle = StyleSheet.create({

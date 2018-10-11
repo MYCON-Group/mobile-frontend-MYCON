@@ -52,7 +52,7 @@ export default class AdminScreen extends React.Component {
             );
           })}
           <View style={styles.buttonContainer}>
-          <SubmitButton name='Submit' handleSubmit={this.handleSubmit}/>
+            <SubmitButton name='Submit' handleSubmit={this.handleSubmit} />
           </View>
         </ScrollView>
       </View>
@@ -74,7 +74,7 @@ export default class AdminScreen extends React.Component {
               })
               : null}
             <View style={styles.buttonContainer}>
-            <SubmitButton name="Edit" handleSubmit={this.editValue} />
+              <SubmitButton name="Edit" handleSubmit={this.editValue} />
             </View>
           </ScrollView>
         </View>

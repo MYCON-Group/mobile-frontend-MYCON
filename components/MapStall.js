@@ -16,12 +16,14 @@ class MapStall extends Component {
   };
 
   render() {
-    let { styles, id, logo } = this.props;
-
+    let { styles, id, logo, dimensions } = this.props;
+    console.log(dimensions)
+    const height = dimensions.h * 0.9
+    const width = dimensions.w * 0.9
     const updateStyle = StyleSheet.create({
       updatedColour: {
         backgroundColor: "#2196F3",
-        borderRadius: 25,
+        borderRadius: 10,
         padding: 5,
         flex: 1,
         flexDirection: "row",
@@ -42,15 +44,15 @@ class MapStall extends Component {
         style={styles}
         onPress={this.notified}
       >
-        <View>
+        <View >
           <Image
             style={{
-              height: 100,
-              width: 100,
+              height: height,
+              width: width,
               alignSelf: "center",
               flex: 1,
               flexDirection: "row",
-              borderRadius: 50
+              borderRadius: 10
             }}
             source={{ uri: logo.stall_logo }}
           />

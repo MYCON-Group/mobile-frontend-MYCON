@@ -107,6 +107,10 @@ export default class MapScreen extends React.Component {
                 let id = Object.keys(this.state.positions)[i];
                 return (
                   <MapStall
+                    dimensions={{
+                      h: Object.values(positions)[i].height,
+                      w: Object.values(positions)[i].width
+                    }}
                     logo={this.state.stallLogos[id]}
                     navigation={this.props.navigation}
                     toMap={this.toTheMap}
